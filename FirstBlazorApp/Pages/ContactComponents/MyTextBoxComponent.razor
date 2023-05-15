@@ -1,0 +1,6 @@
+﻿<input @attributes="CustomAttributes"/>
+
+@code {
+    [Parameter(CaptureUnmatchedValues =true)]
+    public Dictionary<string,object> CustomAttributes { get; set; }
+}
