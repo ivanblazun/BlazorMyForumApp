@@ -1,61 +1,10 @@
 ﻿@page "/"
-@using FirstBlazorApp.Models;
-@using FirstBlazorApp.Pages.ContactComponents
-@foreach (var contact in contacts)
-{
-    <ContactComponent01 currContact="@contact">
 
-    </ContactComponent01>
+<h1>Index</h1>
 
 
-}
-
-@*24:57
-
-https://www.youtube.com/watch?v=Sp2XYGqNeD8&list=PLzewa6pjbr3IQEUfNiK2SROQC1NuKl6PV&index=2*@
-
-@*<MyTextBoxComponent placeholder="Placeholder 01" type="text" disabled="disabled"></MyTextBoxComponent>
-<MyTextBoxComponent CustomAttributes="@(new Dictionary<string,object>
-{
-    {"disabled","disabled"},
-    {"placeholder","contactNAme"},
-    {"type","text"}
-})"></MyTextBoxComponent>*@
-
-
-<MyTextBoxComponent ></MyTextBoxComponent>
 
 @code{
-    private List<Contact> contacts;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        contacts = new List<Contact>
-        {
-            new Contact
-            {
-                FirstName="John",
-                LastName="Thomas",
-                Email="john@gmail.com"
-            },
-            new Contact
-            {
-                FirstName="mark",
-                LastName="Hector",
-                Email="mark@gmail.com"
-            },
-            new Contact
-            {
-                FirstName="Amanda",
-                LastName="Jeffrey",
-                Email="amanbda@gmail.com"
-            }
-        };
-    }
-
-
 
 
 }
