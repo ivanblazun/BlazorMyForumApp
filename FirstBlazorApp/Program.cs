@@ -1,5 +1,7 @@
+using FirstBlazorApp.Auth;
 using FirstBlazorApp.Data;
 using FirstBlazorApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
@@ -9,19 +11,26 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Azure") ?? 
     throw new NullReferenceException("No connection string");
 // Add services to the container.
+builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-// Auth services
-builder.Services.AddAuthentication("Cookies").AddCookie();
+
+//https://www.youtube.com/watch?v=iq2btD9WufI&list=PLzewa6pjbr3IQEUfNiK2SROQC1NuKl6PV&index=12
+//13:24
+
+builder.Services.AddScoped<AuthProccedure>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthProccedure>();
+// dbServices
+builder.Services.AddDbContextFactory<appDbContext>((DbContextOptionsBuilder options)=> options.UseSqlServer(connectionString));
+builder.Services.AddTransient<PostService>();
 
 builder.Services.AddSingleton<WeatherForecastService>();
 
-// dbServices
-builder.Services.AddDbContextFactory<appDbContext>((DbContextOptionsBuilder options)=> options.UseSqlServer(connectionString));
-
-builder.Services.AddTransient<PostService>();
-
+// Auth services
+//builder.Services.AddAuthentication("Cookies").AddCookie();
+builder.Services.AddSingleton<CustomAuthService>();
+builder.Services.AddSingleton<UserAccountService>();
 
 var app = builder.Build();
 

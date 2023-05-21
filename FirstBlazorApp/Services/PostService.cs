@@ -2,28 +2,29 @@
 using FirstBlazorApp.Data;
 using ForumAdminPanel.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FirstBlazorApp.Services
 {
     public class PostService
     {
         private IDbContextFactory<appDbContext> _dbContextFactory;
+     
+    
 
-        public PostService (IDbContextFactory<appDbContext> dbContextFactory)
+        public PostService (IDbContextFactory<appDbContext> dbContextFactory, CustomAuthService auth)
         {
+        
+            
             _dbContextFactory = dbContextFactory;
         }
 
-        AuthProccedure authProccedure = new AuthProccedure();
-            
 
         //public void AddPost
 
-        public List<Post> GetAllPosts() 
-        
-        
+        public List<Post> GetAllPosts()  
         {
-            var user = authProccedure.CheckUserIdentity();
+
 
             var returnedPosts = new List<Post>();
 
