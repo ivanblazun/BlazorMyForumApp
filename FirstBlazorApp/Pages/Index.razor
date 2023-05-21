@@ -1,10 +1,12 @@
 ﻿@page "/"
 
-<h1>Index</h1>
+@*<AuthorizeView>
+    <Authorized>
+        <h1>Hello @context.User.Claims.First().Value</h1>
+    </Authorized>
+</AuthorizeView>
 
-
-
-@code{
-
-
-}
+<form action="cookie" method="post">
+    <input type="text" name="name" />
+    <input type="submit" />
+</form>*@

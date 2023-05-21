@@ -1,9 +1,12 @@
 ﻿@using ForumAdminPanel.Models;
 
-
+<h4>@Post.Title</h4>
+<u>
+    <li>@Post.Body</li>
+</u>
 
 
 @code {
     [Parameter]
-      public Post post { get; set; } 
+      public Post Post { get; set; } 
 }
