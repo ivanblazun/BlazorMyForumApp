@@ -25,6 +25,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, AuthProccedure>();
 builder.Services.AddDbContextFactory<appDbContext>((DbContextOptionsBuilder options)=> options.UseSqlServer(connectionString));
 builder.Services.AddTransient<PostService>();
 builder.Services.AddTransient<ForumService>();
+builder.Services.AddTransient<ThemeService>();
 
 builder.Services.AddSingleton<WeatherForecastService>();
 

@@ -7,7 +7,7 @@
     <li>@Fora.Name</li>
 </ul>
 
-<button type="button" @onclick="@(()=>GoToForum(Fora.Id))"></button>
+<button type="button" @onclick="@(()=>GoToForum(Fora.Id))">Go to themes</button>
 
 @code {
     [Parameter]
@@ -17,7 +17,7 @@
 
     private  void GoToForum(int id)
     {
-        string location = @"/singleforum/" + Fora.Id.ToString();
+        string location = "/singleforum/" + Fora.Id.ToString();
 
           navManager.NavigateTo(location, true);
     }

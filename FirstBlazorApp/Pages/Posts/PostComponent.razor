@@ -1,0 +1,20 @@
+﻿@using ForumAdminPanel.Models;
+@inject PostService postService
+
+<div class="card">
+    <div class="card-header">
+        @Post.Title
+    </div>
+    <div class="card-body">
+
+       @* <h5 class="card-title">@postService.GetUserCreatorOfPost(Post.UserId).Result.UserName</h5>*@
+        <p class="card-text">@Post.Body</p>
+        <a href="#" class="btn btn-primary">Give Answer</a>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Post Post { get; set; }
+
+}

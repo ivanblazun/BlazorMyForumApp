@@ -1,11 +1,11 @@
-﻿@page "/posts"
+﻿@page "/posts/{id:int}"
 @using FirstBlazorApp.Services
 @inject PostService postService;
 
 <h3>Posts</h3>
     
 
-@foreach (var post in postService.GetAllPosts())
+@foreach (var post in postService.GetAllPostsFromTheme(id))
 {
     <PostComponent Post="post"></PostComponent>
 }
@@ -14,7 +14,8 @@
 
 
 @code {
-
+    [Parameter]
+    public int id { get; set; }
   
 
 }

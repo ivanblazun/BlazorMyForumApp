@@ -14,7 +14,7 @@ namespace ForumAdminPanel.Models
         // Navigation props
 
         public System.Nullable<int> UserId { get; set; }
-
+        public string? ThemeBody { get; set; }
         public User User { get; set; }
 
         public int ForumId { get; set; }

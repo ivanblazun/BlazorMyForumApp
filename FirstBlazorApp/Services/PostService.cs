@@ -17,13 +17,12 @@ namespace FirstBlazorApp.Services
             _dbContextFactory = dbContextFactory;
         }
 
-        public List<Post> GetAllPosts()  
+        public List<Post> GetAllPostsFromTheme(int id)  
         {
             var returnedPosts = new List<Post>();
-
             using ( var context = _dbContextFactory.CreateDbContext()) 
-            {
-                var recordedPosts= context.Posts.ToList();
+            {   
+                var recordedPosts= context.Posts.Where(P=>P.ThemeId==id).ToList();
 
                 foreach ( var post in recordedPosts) 
                 {
@@ -32,8 +31,24 @@ namespace FirstBlazorApp.Services
                     returnedPosts.Add( p );
                 }
             }
-
                 return returnedPosts;
         } 
+
+        public async Task<User> GetUserCreatorOfPost(int userId)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {   
+                User user=new User();
+                user = await context.Users.Where(U=>U.Id==userId).FirstOrDefaultAsync();
+                if (user!=null)
+                {
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 }
