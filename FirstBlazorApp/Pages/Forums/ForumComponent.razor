@@ -1,0 +1,24 @@
+﻿@using ForumAdminPanel.Models;
+@inject NavigationManager navManager
+@inject ForumService forumService
+<h4>ForumComponent</h4>
+
+<ul>
+    <li>@Fora.Name</li>
+</ul>
+
+<button type="button" @onclick="@(()=>GoToForum(Fora.Id))"></button>
+
+@code {
+    [Parameter]
+    public Fora Fora{ get; set; }
+
+
+
+    private  void GoToForum(int id)
+    {
+        string location = @"/singleforum/" + Fora.Id.ToString();
+
+          navManager.NavigateTo(location, true);
+    }
+}

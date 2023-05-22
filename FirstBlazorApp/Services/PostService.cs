@@ -12,20 +12,13 @@ namespace FirstBlazorApp.Services
      
     
 
-        public PostService (IDbContextFactory<appDbContext> dbContextFactory, CustomAuthService auth)
-        {
-        
-            
+        public PostService (IDbContextFactory<appDbContext> dbContextFactory)
+        {         
             _dbContextFactory = dbContextFactory;
         }
 
-
-        //public void AddPost
-
         public List<Post> GetAllPosts()  
         {
-
-
             var returnedPosts = new List<Post>();
 
             using ( var context = _dbContextFactory.CreateDbContext()) 

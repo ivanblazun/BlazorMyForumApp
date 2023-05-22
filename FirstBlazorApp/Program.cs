@@ -15,7 +15,7 @@ builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-
+//auth from session video
 //https://www.youtube.com/watch?v=iq2btD9WufI&list=PLzewa6pjbr3IQEUfNiK2SROQC1NuKl6PV&index=12
 //13:24
 
@@ -24,12 +24,11 @@ builder.Services.AddScoped<AuthenticationStateProvider, AuthProccedure>();
 // dbServices
 builder.Services.AddDbContextFactory<appDbContext>((DbContextOptionsBuilder options)=> options.UseSqlServer(connectionString));
 builder.Services.AddTransient<PostService>();
+builder.Services.AddTransient<ForumService>();
 
 builder.Services.AddSingleton<WeatherForecastService>();
 
 // Auth services
-//builder.Services.AddAuthentication("Cookies").AddCookie();
-builder.Services.AddSingleton<CustomAuthService>();
 builder.Services.AddSingleton<UserAccountService>();
 
 var app = builder.Build();

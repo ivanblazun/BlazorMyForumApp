@@ -1,0 +1,58 @@
+﻿@page "/registeruser"
+
+@using ForumAdminPanel.Models;
+@inject UserAccountService userAccountService;
+@inject IJSRuntime js
+@inject NavigationManager navManager
+
+<h3>Register</h3>
+
+
+<div class="row">
+    <div class=" col-4 ofset-lg-4 pt-4 pb-4 border">
+        <div>
+            <h3>Register user</h3>
+        </div>
+        <div class="mb-3">
+            <label>User name</label>
+            <input @bind="model.UserName" class="form-control" placeholder="User name">
+        </div>
+        <div class="mb-3">
+            <label>Password</label>
+            <input @bind="model.Password" type="password" class="form-control" placeholder="Password" />
+        </div
+               <div class="mb-3">
+            <label>Password</label>
+            <input @bind="model.Email" type="email" class="form-control" placeholder="Email" />
+        </div
+
+        <div class="mb-3 d-grid gap-2">
+            <button @onclick="FormRegisterUser" class="btn btn-primary">Register</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    Model model = new Model();
+
+    User registeredUser = new User();
+
+    private void FormRegisterUser()
+    {
+        registeredUser.UserName = model.UserName;
+        registeredUser.Password = model.Password;
+        registeredUser.Email = model.Email;
+
+        userAccountService.RegisterUser(registeredUser);
+
+    }
+
+
+}

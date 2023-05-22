@@ -24,5 +24,32 @@ namespace FirstBlazorApp.Services
 
 
         }
+
+        public void RegisterUser(User user) 
+        {
+            using ( var context = _dbContextFactory.CreateDbContext())
+            {
+                bool doesUserExist = context.Users.Any(U => U.UserName == user.UserName && U.Email == user.Email);
+
+                if (doesUserExist)
+                {
+                    
+                }
+                else
+                {
+                    User registeredUser = new User
+                    {
+                        UserName = user.UserName,
+                        Email = user.Email,
+                        Password = user.Password,
+                        RegisteredDate = DateTime.UtcNow,
+                        UserStatus = 3
+                    };
+
+                    context.Users.Add(registeredUser);
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }
