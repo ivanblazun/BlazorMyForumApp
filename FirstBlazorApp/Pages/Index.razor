@@ -1,12 +1,31 @@
 ﻿@page "/"
+@inject IJSRuntime js;
+<PageTitle>Index</PageTitle>
 
-@*<AuthorizeView>
+<AuthorizeView>
     <Authorized>
-        <h1>Hello @context.User.Claims.First().Value</h1>
+        <h1>Hello, @context.User.Identity.Name</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Hello, guest!</h1>
+    </NotAuthorized>
+</AuthorizeView>
+<AuthorizeView>
+    <Authorized>
+        <br /> <br />
+        <button class="btn btn-outline-primary" @onclick="DisplayGreetingAlert">Display greeting alert</button>
     </Authorized>
 </AuthorizeView>
 
-<form action="cookie" method="post">
-    <input type="text" name="name" />
-    <input type="submit" />
-</form>*@
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
+    private async Task DisplayGreetingAlert()
+    {
+        var authState = await authenticationState;
+        var message = $"Hello {authState.User.Identity.Name}";
+        await js.InvokeVoidAsync("alert", message);
+    }
+}

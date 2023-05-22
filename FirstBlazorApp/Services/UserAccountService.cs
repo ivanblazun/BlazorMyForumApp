@@ -14,7 +14,7 @@ namespace FirstBlazorApp.Services
             _dbContextFactory = dbContextFactory;
         }
 
-        private User? GetByUserName(string userName) 
+        public User? GetByUserName(string userName) 
         {
             using (var context = _dbContextFactory.CreateDbContext())
             {
