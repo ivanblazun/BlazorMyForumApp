@@ -9,9 +9,7 @@ namespace FirstBlazorApp.Services
     public class PostService
     {
         private IDbContextFactory<appDbContext> _dbContextFactory;
-     
     
-
         public PostService (IDbContextFactory<appDbContext> dbContextFactory)
         {         
             _dbContextFactory = dbContextFactory;
