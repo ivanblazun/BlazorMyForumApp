@@ -32,17 +32,17 @@ namespace FirstBlazorApp.Services
                 }
             }
                 return returnedPosts;
-        } 
+        }
 
-        public async Task<User> GetUserCreatorOfPost(int userId)
+        public string GetUserCreatorOfPost(int userId)
         {
             using (var context = _dbContextFactory.CreateDbContext())
-            {   
-                User user=new User();
-                user = await context.Users.Where(U=>U.Id==userId).FirstOrDefaultAsync();
-                if (user!=null)
+            {
+                User user = new User();
+                user = context.Users.Where(U => U.Id == userId).FirstOrDefault();
+                if (user != null)
                 {
-                    return user;
+                    return user.UserName.ToString();
                 }
                 else
                 {
@@ -50,5 +50,21 @@ namespace FirstBlazorApp.Services
                 }
             }
         }
+        //public async Task<string> GetUserCreatorOfPost(int userId)
+        //{
+        //    using (var context = _dbContextFactory.CreateDbContext())
+        //    {
+        //        User user = new User();
+        //        user = await context.Users.Where(U => U.Id == userId).FirstOrDefaultAsync();
+        //        if (user != null)
+        //        {
+        //            return user.UserName.ToString();
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
     }
 }
