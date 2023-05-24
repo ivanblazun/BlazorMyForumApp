@@ -1,13 +1,14 @@
 ﻿@page "/forums"
 @using FirstBlazorApp.Services;
+@using ForumAdminPanel.Models;
 @inject ForumService forumService
 <h3>Forums</h3>
 
- @foreach (var forum in forumService.GetAllForums())
+@foreach (var forum in forumService.GetAllForums())
 {
     <ForumComponent Fora="forum"></ForumComponent>
 }
 
 @code {
-    
+
 }

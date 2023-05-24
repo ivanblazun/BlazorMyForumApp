@@ -62,6 +62,30 @@ namespace FirstBlazorApp.Services
             }
 
         }
+
+        public async Task<Answer> CreateAnswerAsync(int postId, int userId, Answer answerInput)
+        {
+
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                Post post = await context.Posts.Where(P => P.Id == postId).FirstOrDefaultAsync();
+                User user = await context.Users.Where(U => U.Id == userId).FirstOrDefaultAsync();
+
+                Answer answer = new Answer()
+                {
+                    Body = answerInput.Body,
+                    UserId = userId,
+                    PostId = postId,
+                    TimeAnswerCreated = DateTime.UtcNow,
+                };
+                
+                context.Answers.Add(answer);
+                context.SaveChanges();
+
+                return  answer;
+            }
+
+        }
     }
 
 

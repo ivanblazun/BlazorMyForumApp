@@ -13,6 +13,16 @@ namespace FirstBlazorApp.Services
             _dbContextFactory = dbContextFactory;
         }
 
+
+        public async Task<List<Fora>> GetAllForumsAsync()
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                var forums = context.Fora.ToListAsync();
+                return await forums;
+            }
+        }
+
         public List<Fora> GetAllForums()
         {   
             using(var context = _dbContextFactory.CreateDbContext())

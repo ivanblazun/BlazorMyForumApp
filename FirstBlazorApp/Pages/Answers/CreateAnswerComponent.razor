@@ -6,14 +6,24 @@
 <h3>CreateAnswerComponent</h3>
 
 <input type="text" @bind="answer.Body"/>
+<button @onclick="(()=>AddAnswer.InvokeAsync(answer))">Add Answer</button>
 
-<button @onclick="(()=>{answerService.CreateAnswer(post.Id,2,answer);})">Add Answer</button>
 @code {
+
     [Parameter]
-    public Post post { get; set; }
+    public Post Post { get; set; }
+    [Parameter]
+    public EventCallback<Answer> AddAnswer{ get; set; }
 
     Answer answer = new Answer()
     {
 
     };
+
+    public async Task CreateAnswerAndUpdate()
+    {
+        await answerService.CreateAnswerAsync(Post.Id, 2, answer);
+        answerService.GetAnswersForPost(Post.Id);
+
+    }
 }

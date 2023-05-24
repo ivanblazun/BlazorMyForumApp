@@ -27,7 +27,7 @@
     </div>
     @if (viewGiveAnswer)
     {
-       <CreateAnswerComponent Post="Post"></CreateAnswerComponent>     
+        <CreateAnswerComponent AddAnswer="AddNewAnswer" Post="Post"></CreateAnswerComponent>
     }
 
 </div>
@@ -40,9 +40,17 @@
 
     bool viewGiveAnswer = false;
 
-    private void AddAnswer(int postId)
+    public void AddAnswer(int postId)
     {
         viewGiveAnswer = true;
+    }
+
+    async Task AddNewAnswer(Answer answer)
+    {
+       
+        await answerService.CreateAnswerAsync(Post.Id, 2, answer);
+        answerService.GetAnswersForPost(Post.Id);
+        viewGiveAnswer = false;
 
     }
 }
