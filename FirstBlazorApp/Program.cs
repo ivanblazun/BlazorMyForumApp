@@ -26,6 +26,7 @@ builder.Services.AddDbContextFactory<appDbContext>((DbContextOptionsBuilder opti
 builder.Services.AddTransient<PostService>();
 builder.Services.AddTransient<ForumService>();
 builder.Services.AddTransient<ThemeService>();
+builder.Services.AddTransient<AnswerService>();
 
 builder.Services.AddSingleton<WeatherForecastService>();
 

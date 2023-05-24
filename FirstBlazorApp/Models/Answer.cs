@@ -8,6 +8,8 @@ namespace ForumAdminPanel.Models
 
         public string Body { get; set; }
 
+        public DateTime TimeAnswerCreated { get; set; }
+
         // Navigation props
 
         public int PostId { get; set; }

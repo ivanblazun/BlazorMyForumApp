@@ -1,0 +1,19 @@
+﻿@using ForumAdminPanel.Models;
+@using FirstBlazorApp.Pages.Answers
+@inject PostService postService
+@inject AnswerService answerService
+
+<h3>CreateAnswerComponent</h3>
+
+<input type="text" @bind="answer.Body"/>
+
+<button @onclick="(()=>{answerService.CreateAnswer(post.Id,2,answer);})">Add Answer</button>
+@code {
+    [Parameter]
+    public Post post { get; set; }
+
+    Answer answer = new Answer()
+    {
+        
+    }
+}

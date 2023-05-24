@@ -3,7 +3,7 @@
 @inject PostService postService;
 
 <h3></h3>
-    
+<button class="btn btn-success mb-1">Add post</button>    
 @foreach (var post in postService.GetAllPostsFromTheme(id))
 {
     <PostComponent Post="post"></PostComponent>

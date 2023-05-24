@@ -1,0 +1,12 @@
+﻿@using ForumAdminPanel.Models;
+@inject AnswerService answerService
+<h3>AnswerComponent</h3>
+
+<p>@Answer.Body</p>
+<p>@Answer.UserId</p>
+
+@code {
+    [Parameter]
+    public Answer Answer { get; set; }
+
+}

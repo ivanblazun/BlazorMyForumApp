@@ -1,15 +1,35 @@
 ﻿@using ForumAdminPanel.Models;
+@using FirstBlazorApp.Pages.Answers
 @inject PostService postService
+@inject AnswerService answerService
 
 <div class="card">
     <div class="card-header">
         @Post.Title
+        <p>@Post.TimePostCreated</p>
     </div>
     <div class="card-body">
         <h5 class="card-title">@postService.GetUserCreatorOfPost(Post.UserId)</h5>
         <p class="card-text">@Post.Body</p>
-        <a href="#" class="btn btn-primary">Give Answer</a>
+        <button class="btn btn-primary" @onclick="(()=>{AddAnswer(Post.Id);})">Give Answer</button>
+        <a href="#" class="btn btn-secondary">Edit</a>
+        <a href="#" class="btn btn-warning">Delete</a>
     </div>
+    <div>
+        @if (answerService.GetAnswersForPost(Post.Id) != null)
+        {
+            @foreach (var answer in answerService.GetAnswersForPost(Post.Id))
+            {
+             <AnswerComponent Answer="answer"></AnswerComponent>          
+            }
+        }
+        
+    </div>
+    @if (viewGiveAnswer)
+    {
+       <CreateAnswerComponent Post="Post"></CreateAnswerComponent>     
+    }
+
 </div>
 
 @code {
@@ -17,4 +37,12 @@
     public Post Post { get; set; }
     [Parameter]
     public Theme Theme { get; set; }
+
+    bool viewGiveAnswer = false;
+
+    private void AddAnswer(int postId)
+    {
+        viewGiveAnswer = true;
+
+    }
 }
