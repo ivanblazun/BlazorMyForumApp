@@ -1,7 +1,7 @@
 ﻿using FirstBlazorApp.Data;
 using ForumAdminPanel.Models;
 using Microsoft.EntityFrameworkCore;
-
+using FirstBlazorApp.Auth;
 namespace FirstBlazorApp.Services
 {
     public class UserAccountService
@@ -14,6 +14,14 @@ namespace FirstBlazorApp.Services
             _dbContextFactory = dbContextFactory;
         }
 
+
+        public User GetCurrentUser()
+        {
+
+
+            return null;
+        }
+
         public User? GetByUserName(string userName) 
         {
             using (var context = _dbContextFactory.CreateDbContext())
@@ -21,8 +29,6 @@ namespace FirstBlazorApp.Services
                 var foundedUser=context.Users.FirstOrDefault(U=>U.UserName==userName);
                 return foundedUser;
             }
-
-
         }
 
         public void RegisterUser(User user) 

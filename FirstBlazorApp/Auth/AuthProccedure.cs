@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
+﻿using FirstBlazorApp.Data;
+using ForumAdminPanel.Models;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
@@ -10,11 +13,14 @@ namespace FirstBlazorApp.Auth
     {   
         private readonly ProtectedSessionStorage _sessionStorage;
 
+        private IDbContextFactory<appDbContext> _dbContextFactory;
+
         private readonly ClaimsPrincipal _anonymus = new ClaimsPrincipal(new ClaimsIdentity());
 
-        public AuthProccedure(ProtectedSessionStorage sessionStorage) 
+        public AuthProccedure(ProtectedSessionStorage sessionStorage, IDbContextFactory<appDbContext> dbContextFactory) 
         {
             _sessionStorage = sessionStorage;    
+            _dbContextFactory = dbContextFactory;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -40,6 +46,34 @@ namespace FirstBlazorApp.Auth
             {
 
                 return await Task.FromResult(new AuthenticationState(_anonymus));
+            }
+        }
+
+        public async Task<User> GetCurrentUserAsync()
+        {   
+            try
+            {
+                var userSessionStorageResult = await _sessionStorage.GetAsync<UserSession>("UserSession");
+                var userSession = userSessionStorageResult.Success ? userSessionStorageResult.Value : null;
+                if( userSessionStorageResult.Success && userSession.UserName !=null)
+                {
+                    var currentUserName = userSession.UserName;
+
+                    using (var context = _dbContextFactory.CreateDbContext())
+                    {   
+                        User currentUser = context.Users.FirstOrDefault(U=>U.UserName==currentUserName);
+                        return currentUser;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

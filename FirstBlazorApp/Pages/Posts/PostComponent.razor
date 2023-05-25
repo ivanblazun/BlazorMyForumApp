@@ -1,7 +1,10 @@
 ﻿@using ForumAdminPanel.Models;
 @using FirstBlazorApp.Pages.Answers
+@using FirstBlazorApp.Auth
 @inject PostService postService
 @inject AnswerService answerService
+@inject UserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
 
 <div class="card">
     <div class="card-header">
@@ -11,7 +14,11 @@
     <div class="card-body">
         <h5 class="card-title">@postService.GetUserCreatorOfPost(Post.UserId)</h5>
         <p class="card-text">@Post.Body</p>
-        <button class="btn btn-primary" @onclick="(()=>{AddAnswer(Post.Id);})">Give Answer</button>
+         <AuthorizeView>
+             <Authorized>
+              <button class="btn btn-primary" @onclick="(()=>{AddAnswer(Post.Id);})">Give Answer</button>
+            </Authorized>
+        </AuthorizeView>
         <a href="#" class="btn btn-secondary">Edit</a>
         <a href="#" class="btn btn-warning">Delete</a>
     </div>
@@ -25,11 +32,12 @@
         }
         
     </div>
+   
     @if (viewGiveAnswer)
     {
         <CreateAnswerComponent AddAnswer="AddNewAnswer" Post="Post"></CreateAnswerComponent>
     }
-
+     
 </div>
 
 @code {
@@ -45,10 +53,14 @@
         viewGiveAnswer = true;
     }
 
+    User CurrentUser = new User();
+
     async Task AddNewAnswer(Answer answer)
     {
-       
-        await answerService.CreateAnswerAsync(Post.Id, 2, answer);
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user= await customAuthstateProvider.GetCurrentUserAsync();
+
+        await answerService.CreateAnswerAsync(Post.Id, user.Id, answer);
         answerService.GetAnswersForPost(Post.Id);
         viewGiveAnswer = false;
 

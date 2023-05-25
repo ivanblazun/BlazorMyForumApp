@@ -20,10 +20,4 @@
 
     };
 
-    public async Task CreateAnswerAndUpdate()
-    {
-        await answerService.CreateAnswerAsync(Post.Id, 2, answer);
-        answerService.GetAnswersForPost(Post.Id);
-
-    }
 }
