@@ -25,16 +25,26 @@ namespace FirstBlazorApp.Services
             using (var context = _dbContextFactory.CreateDbContext())
             {
               var  users = context.Users.ToList();
-
                 foreach (var u in users)
                 {
                     User user = new User();
                     user = u;
-
                     usersList.Add(user);
-
                 }
                 return usersList;
+            }
+        }
+
+        public List<User> SearchUsers(string userName,string userEmail, int userId) 
+        {   
+
+            using(var context = _dbContextFactory.CreateDbContext())
+            {
+                var users = context.Users.ToList();
+
+
+
+                return users;
             }
         }
     }
