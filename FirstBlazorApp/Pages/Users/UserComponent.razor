@@ -1,0 +1,22 @@
+﻿@using ForumAdminPanel.Models;
+<div class="col-3 m-2">
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@User.UserName</h5>
+        <p class="card-text">User status: @User.UserStatus</p>
+        <p class="card-text">User email: @User.Email</p>
+        <p class="card-text">User email: @User.Password</p>
+        <p class="card-text">User email: @User.RegisteredDate</p>
+        <button class="btn btn-info card-link">Change user properties</button>
+    </div>
+</div>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public  User User { get; set; }
+    [Parameter]
+    public EventCallback<User> ChangeUserProperties { get; set; }
+}

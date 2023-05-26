@@ -1,0 +1,26 @@
+﻿@page "/testusers"
+@using ForumAdminPanel.Models;
+@inject UserService userService
+
+
+
+<h3>Users</h3>
+
+<div class="d-flex flex-column">
+<label for="serachusers">Search for users</label>
+<input type="text" name="serachusers" placeholder="Search users" class="w-25"/>
+
+</div>
+
+
+<div class="row">
+    @foreach (var user in userService.GetAllUsers())
+    {   
+        <UserComponent User="user"></UserComponent>
+    }
+</div>
+
+
+@code {
+
+}
