@@ -1,13 +1,17 @@
 ﻿@using ForumAdminPanel.Models;
 @inject NavigationManager navManager
 @inject ForumService forumService
-<h4>ForumComponent</h4>
 
-<ul>
-    <li>@Fora.Name</li>
-</ul>
+<div class="col-3 shadow">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">@Fora.Name</h5>
+            <p class="card-text">@Fora.Description</p>
+            <button type="button" class="btn btn-outline-primary btn-sm" @onclick="@(()=>GoToForum(Fora.Id))">Go to themes</button>
+        </div>
+    </div>
+</div>
 
-<button type="button" @onclick="@(()=>GoToForum(Fora.Id))">Go to themes</button>
 
 @code {
     [Parameter]

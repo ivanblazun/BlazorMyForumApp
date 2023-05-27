@@ -62,3 +62,14 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+    .color-green{
+        background-color: lightgreen
+    }
+
+    /*Themes*/
+.theme-body {
+    padding: 1rem;
+    font-size: 14px;
+    font-family: cursive;
+}

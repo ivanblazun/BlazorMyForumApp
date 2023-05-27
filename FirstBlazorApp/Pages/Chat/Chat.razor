@@ -1,0 +1,94 @@
+﻿@page "/chat"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Models
+@inject NavigationManager navManager
+@implements IAsyncDisposable
+
+<div class="container overflow-auto shadow-sm p-3 mb-5 bg-white rounded" style="height:500px">
+    @if (!userMessages.Any())
+    {
+        <P>No messages...start chatting</P>
+    }
+
+    @foreach (var message in userMessages)
+    {
+        <div class="row mb-3 d-flex @(message.CurrentUser ? "justify-content-end" : "")">
+            <div class="card shadow  @(message.CurrentUser ? "color-green mr-5" : "ml-5")" style="width:18rem">
+                <div class="card-header">
+                    @(message.CurrentUser ? "You" : message.UserName)
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item @(message.CurrentUser ? "color-green" : "")">@message.Message</li>
+                </ul>
+                <div class="cardcard-footer">
+                    <span class="small">@message.DateSend.ToString("HH:mm | MMM dd")</span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <input type="text" @bind="usernameInput" class="form-control" placeholder="Your name" readonly="@isUserReadOnly"/>
+        </div>
+        <div class="col-6">
+            <textarea  @bind="messageInput" class="form-control" placeholder="Input your text">
+
+            </textarea> 
+        </div>
+        <div class="col-3">
+            <button type="button" @onclick="Send" disabled="@(!isConnected)" class="btn btn-primary">Send</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private HubConnection hubConnection;
+
+    private List<UserMessage> userMessages = new();
+
+    private string usernameInput;
+    private string messageInput;
+
+    private bool isUserReadOnly = false;
+
+    public bool isConnected => hubConnection.State == HubConnectionState.Connected;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(navManager.ToAbsoluteUri("/chathub"))
+        .Build();
+
+        hubConnection.On<string, string>("RecievedMessage", (user, message) =>
+        {
+            userMessages.Add(new UserMessage { UserName = user, Message = message, CurrentUser = user == usernameInput, DateSend = DateTime.UtcNow });
+
+            StateHasChanged();
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+    private async Task Send()
+    {
+        if(!string.IsNullOrEmpty(usernameInput) && !string.IsNullOrEmpty(messageInput))
+        {
+            await hubConnection.SendAsync("SendMessage", usernameInput, messageInput);
+
+            isUserReadOnly = true;
+
+            messageInput = string.Empty;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();    
+        }
+    } 
+}

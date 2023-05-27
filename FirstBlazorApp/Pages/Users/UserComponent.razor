@@ -1,13 +1,25 @@
 ﻿@using ForumAdminPanel.Models;
+@inject NavigationManager navManager
+
 <div class="col-3 m-2">
 <div class="card" style="width: 18rem;">
     <div class="card-body">
         <h5 class="card-title">@User.UserName</h5>
         <p class="card-text">User status: @User.UserStatus</p>
         <p class="card-text">User email: @User.Email</p>
-        <p class="card-text">User email: @User.Password</p>
-        <p class="card-text">User email: @User.RegisteredDate</p>
-        <button class="btn btn-info card-link">Change user properties</button>
+        <p class="card-text">User Registerd date: @User.RegisteredDate</p>
+        <div class="d-flex flex-column gap-1">
+            <div>
+                    <button @onclick="@(()=>{GoToUser(User.Id);})" class="btn btn-info btn-sm">
+                    Change user properties
+                </button>
+            </div>
+            <div>
+                <button @onclick="@(()=>{GoToUserProfile(User.Id);})" class="btn btn-outline-primary btn-sm">
+                    Change user profile properties
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -17,6 +29,16 @@
 @code {
     [Parameter]
     public  User User { get; set; }
-    [Parameter]
-    public EventCallback<User> ChangeUserProperties { get; set; }
+
+
+    private void GoToUser(int id)
+    {
+        string location = "/updateuser/" + id.ToString();
+        navManager.NavigateTo(location, true);
+    }
+    private void GoToUserProfile(int id)
+    {
+        string location = "/updateuserprofile/" + id.ToString();
+        navManager.NavigateTo(location, true);
+    }
 }

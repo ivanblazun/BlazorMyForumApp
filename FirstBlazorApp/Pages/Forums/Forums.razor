@@ -2,12 +2,18 @@
 @using FirstBlazorApp.Services;
 @using ForumAdminPanel.Models;
 @inject ForumService forumService
-<h3>Forums</h3>
 
-@foreach (var forum in forumService.GetAllForums())
-{
-    <ForumComponent Fora="forum"></ForumComponent>
-}
+<div>
+    <button class="btn btn-outline-primary">Add new sub-forum</button>
+</div>
+
+<div class="row">
+    @foreach (var forum in forumService.GetAllForums())
+    {
+        <ForumComponent Fora="forum"></ForumComponent>
+    }
+</div>
+
 
 @code {
 

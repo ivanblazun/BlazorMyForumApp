@@ -3,28 +3,27 @@
 @inject ThemeService themeService
 @inject NavigationManager navManager
 
-<h3>SingleForum</h3>
+<div>
+    <button class="btn btn-outline-primary">Add new theme</button>
+</div>
 
 <div class="row">
-
-
     @foreach (var theme in themeService.GetAllThemesFromForum(id))
-{   
-    <div class="col-3 m-1 mt-1">
-        <div class="card">
-            <div class="card-body">
-                    <h5 class="card-title">@theme.Title</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
-                @if(theme.ThemeBody!= null)
-                {
-                        <p class=" card-text">@theme.ThemeBody</p>
-                }
-                <a href="#" @onclick="@(()=>GetToPosts(theme.Id))" class="card-link">Read Theme</a>
-                <a href="#" class="card-link">Another link</a>
+    {   
+        <div class="col-3 m-1 mt-1 shadow">
+            <div class="card">
+                <div class="card-body">
+                        <h5 class="card-title">@theme.Title</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
+                    @if(theme.ThemeBody!= null)
+                    {
+                        <p class="card-text theme-body">@theme.ThemeBody</p>
+                    }
+                    <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-info btn-sm">Read Theme</button>
+                </div>
             </div>
         </div>
-    </div>
-}
+    }
 
 </div>
 

@@ -11,6 +11,8 @@ namespace ForumAdminPanel.Models
         public int ThemesCounter { get; set; }
         public int UserCounter { get; set; }
 
+        public string? Description { get; set; }
+
         //[ForeignKey("MainForum")]
         public int MainForumId { get; set; }
         //public MainForum MainForums { get; set; }

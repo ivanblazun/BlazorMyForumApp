@@ -1,10 +1,12 @@
 using FirstBlazorApp.Auth;
 using FirstBlazorApp.Data;
+using FirstBlazorApp.Hubs;
 using FirstBlazorApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +30,13 @@ builder.Services.AddTransient<ForumService>();
 builder.Services.AddTransient<ThemeService>();
 builder.Services.AddTransient<AnswerService>();
 builder.Services.AddTransient<UserService>();
-
 builder.Services.AddSingleton<WeatherForecastService>();
+
+// Chat service
+builder.Services.AddResponseCompression(options =>
+{
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
+});
 
 // Auth services
 builder.Services.AddSingleton<UserAccountService>();
@@ -56,6 +63,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+
+//Chat
+app.MapHub<ChatHub>("/chathub");
+
 app.MapFallbackToPage("/_Host");
 
 app.Run();

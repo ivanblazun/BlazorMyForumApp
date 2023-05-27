@@ -1,0 +1,52 @@
+﻿@page "/updateuserprofile/{id:int}"
+@using ForumAdminPanel.Models;
+@inject UserService userService
+@inject NavigationManager navManager
+@inject IJSRuntime js
+<h3>UpdateUserProfileComponent</h3>
+
+<div>
+    <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
+        Back to Users
+    </button>
+</div>
+
+<EditForm Model="@profile" OnSubmit="@SaveChanges">
+    <div class="mb-3">
+        <label for="firstName" class="form-label">First name</label>
+        <input type="text" class="form-control" id="firstName" placeholder="@profile.FirstName" @bind="@profile.FirstName">
+    </div>
+    <div class="mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" placeholder="@profile.LastName" @bind="@profile.LastName">
+    </div>
+    <div class="mb-3">
+        <label for="avatar" class="form-label">Avatar</label>
+        <input type="text" class="form-control" id="avatar" placeholder="@profile.Avatar" @bind="@profile.Avatar">
+    </div>
+    <div class="mb-3">
+        <label for="AboutMyself" class="form-label">About myself</label>
+        <input type="text" class="form-control" id="AboutMyself"  @bind="@profile.AboutMyself">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private UserProfile profile { get; set; }
+
+    private void SaveChanges()
+    {
+        userService.UpdateUserProfile(profile);
+        js.InvokeVoidAsync("alert", "User shanges saved");
+        navManager.NavigateTo("/testusers", true);
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = userService.GetUserProfile(id);
+    }
+}

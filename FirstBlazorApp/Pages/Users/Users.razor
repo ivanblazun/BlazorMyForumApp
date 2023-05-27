@@ -8,20 +8,44 @@
 
 <div class="d-flex flex-column gap-1">
 <label for="serachusers">Search for users</label>
-<input type="text" name="serachusers" placeholder="Search users" class="w-25"/>
-    <button class="btn btn-success w-25">Search</button>
-
+    <input type="text" @oninput="SearchUsersAction"  placeholder="Search users" class="w-25" />
+   
 </div>
 
 
 <div class="row">
-    @foreach (var user in userService.GetAllUsers())
-    {   
+    @foreach (var user in users)
+    {
         <UserComponent User="user"></UserComponent>
     }
 </div>
 
 
 @code {
+    bool isSearchMode = false;
 
+    public string SearchInput { get; set; }
+
+    List<User> searchedUsers;
+
+    List<User>? users = new List<User>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await userService.GetAllUsersAsync();
+    }
+
+
+    private  void SearchUsersAction(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        isSearchMode = true;
+
+        SearchInput=(string)args.Value;
+        SearchInput = SearchInput.ToLowerInvariant();
+
+        //int connvertedIntInput = Convert.ToInt32(SearchInput);
+
+        users =  userService.SearchUsers(SearchInput, SearchInput);
+        StateHasChanged();
+    }
 }
