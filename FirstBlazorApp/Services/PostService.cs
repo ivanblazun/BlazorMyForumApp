@@ -37,15 +37,19 @@ namespace FirstBlazorApp.Services
         public async Task <List<Post>> GetAllPostsFromThemeAsync(int id)
         {
             var returnedPosts = new List<Post>();
-            using (var context = _dbContextFactory.CreateDbContext())
-            {
-                var recordedPosts = await  context.Posts.Where(P => P.ThemeId == id).ToListAsync();
+            using (var context = _dbContextFactory.CreateDbContextAsync())
+            {   
+
+                var recordedPosts = await  context.Result.Posts.Where(P => P.ThemeId == id).ToListAsync();
 
                 foreach (var post in recordedPosts)
-                {
-                    Post p = post;
+                {   
+                    if(post != null)
+                    {
+                        Post p = post;
+                        returnedPosts.Add(p);
+                    }
 
-                    returnedPosts.Add(p);
                 }
             }
             return returnedPosts;

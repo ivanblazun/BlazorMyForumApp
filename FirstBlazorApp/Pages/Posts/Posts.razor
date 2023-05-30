@@ -3,7 +3,13 @@
 @using ForumAdminPanel.Models;
 @inject PostService postService
 @inject NavigationManager navManager
+@inject ThemeService themeService
 
+<div class="d-flex m-1 gap-1">
+    <span class="border border-primary-subtle m-1 p-1 rounded-pill fs-4">Theme: @currentTheme.Title</span>
+    <br>
+    <span class="border border-secondary-subtle m-1 p-1 rounded-pill fs-4">Theme opened: @currentTheme.TimeThemeCreated</span>
+</div>
 @if(addPostModalOn)
 {
     <AddPostModalComponent CloseModal="CloseModal" ThemeId="id"></AddPostModalComponent>
@@ -31,10 +37,13 @@ else
     [Parameter]
     public int id { get; set; }
 
+    Theme currentTheme = new Theme();
+
     List<Post> posts = new List<Post>();
 
     protected override async Task OnInitializedAsync()
     {
+        GetCurrentTheme();
         posts = await postService.GetAllPostsFromThemeAsync(id);
     }
 
@@ -53,4 +62,10 @@ else
         posts = await postService.GetAllPostsFromThemeAsync(id);
         StateHasChanged();
     }
+
+    private async Task<Theme> GetCurrentTheme()
+    {
+        return currentTheme = await themeService.GetThemeAsync(id);
+    }
+
 }
