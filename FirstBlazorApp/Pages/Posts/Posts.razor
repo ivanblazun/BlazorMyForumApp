@@ -14,9 +14,17 @@
     </Authorized>
 </AuthorizeView>
 <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum+id.ToString(),true))">Return to themes</button>
-@foreach (var post in posts)
+
+@if(posts != null)
 {
-    <PostComponent Post="post"></PostComponent>
+    @foreach (var post in posts)
+    {
+        <PostComponent Post="post"></PostComponent>
+    }
+}
+else
+{
+    <p>No posts for theme!</p>
 }
 
 @code {
@@ -28,7 +36,6 @@
     protected override async Task OnInitializedAsync()
     {
         posts = await postService.GetAllPostsFromThemeAsync(id);
-        StateHasChanged();
     }
 
     bool addPostModalOn = false;

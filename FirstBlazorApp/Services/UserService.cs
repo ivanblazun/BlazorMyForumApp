@@ -47,16 +47,6 @@ namespace FirstBlazorApp.Services
                 return usersList;
             }
         }
-        //TODO search result 
-        //public async Task<List<User>> SearchUsers(string? userName, string? userEmail)
-        //{
-        //    using (var context = _dbContextFactory.CreateDbContextAsync())
-        //    {
-        //        List<User> users = await context.Result.Users
-        //            .Where(U => U.UserName.Contains(userName).ord;
-        //        return users;
-        //    }
-        //}
 
         public List<User> SearchUsers(string? userName, string? userEmail)
         {

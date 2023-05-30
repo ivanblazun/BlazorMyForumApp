@@ -25,10 +25,14 @@
     <div>
         @if (answerService.GetAnswersForPost(Post.Id) != null)
         {
-            @foreach (var answer in answerService.GetAnswersForPost(Post.Id))
-            {
-             <AnswerComponent Answer="answer"></AnswerComponent>          
-            }
+            <ul class="flex-column">
+                @foreach (var answer in answerService.GetAnswersForPost(Post.Id))
+                {
+                    <li class="list-group-item">
+                        <AnswerComponent Answer="answer"></AnswerComponent>          
+                    </li>
+                }
+            </ul>
         }
         
     </div>

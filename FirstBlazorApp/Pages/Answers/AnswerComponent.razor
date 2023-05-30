@@ -1,12 +1,26 @@
 ﻿@using ForumAdminPanel.Models;
 @inject AnswerService answerService
-<h3>AnswerComponent</h3>
+@inject UserService userService
 
-<p>@Answer.Body</p>
-<p>@Answer.UserId</p>
+<div class="card">
+    <div class="card-header">
+        <p>@user.UserName</p>
+    </div>
+    <div class="card-body">
+        <p class="card-text">@Answer.Body</p>
+        <p class="rounded-pill">@Answer.TimeAnswerCreated</p>
+    </div>
+</div>
 
 @code {
     [Parameter]
     public Answer Answer { get; set; }
+
+    User user = new User();
+
+    protected override void OnInitialized()
+    {
+      user = userService.GetUser(Answer.UserId);
+    }
 
 }

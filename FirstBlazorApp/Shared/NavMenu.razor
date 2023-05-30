@@ -1,7 +1,9 @@
 ﻿@using FirstBlazorApp.Auth;
+@using ForumAdminPanel.Models;
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider authenticationStateProvider;
 @inject NavigationManager navManager;
+@inject ForumService forumService
 
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
@@ -25,9 +27,27 @@
             </NavLink>
         </div>*@
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="forums">
+            <NavLink class="nav-link dropdown" href="forums">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Forums
             </NavLink>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown button
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="testusers">
@@ -81,10 +101,21 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+
+    List<Fora> forasList = new();
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        forasList = await forumService.GetAllForumsAsync();
+    }
+
 
     public async Task Logout()
     {
