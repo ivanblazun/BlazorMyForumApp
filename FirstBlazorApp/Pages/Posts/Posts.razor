@@ -1,10 +1,20 @@
 ﻿@page "/posts/{id:int}"
 @using FirstBlazorApp.Services
-@inject PostService postService;
+@using ForumAdminPanel.Models;
+@inject PostService postService
+@inject NavigationManager navManager
 
-
-<button class="btn btn-success mb-1">Add post</button>    
-@foreach (var post in postService.GetAllPostsFromTheme(id))
+@if(addPostModalOn)
+{
+    <AddPostModalComponent CloseModal="CloseModal" ThemeId="id"></AddPostModalComponent>
+}
+<AuthorizeView>
+    <Authorized>
+        <button class="btn btn-success mb-1" @onclick="OpenModal">Add post</button>    
+    </Authorized>
+</AuthorizeView>
+<button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum+id.ToString(),true))">Return to themes</button>
+@foreach (var post in posts)
 {
     <PostComponent Post="post"></PostComponent>
 }
@@ -12,6 +22,28 @@
 @code {
     [Parameter]
     public int id { get; set; }
-    
-    
+
+    List<Post> posts = new List<Post>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await postService.GetAllPostsFromThemeAsync(id);
+        StateHasChanged();
+    }
+
+    bool addPostModalOn = false;
+
+    string locationForum = "/singleforum/";
+
+    private void OpenModal()
+    {
+        addPostModalOn = true;
+    }
+
+    async Task CloseModal()
+    {
+        addPostModalOn = false;
+        posts = await postService.GetAllPostsFromThemeAsync(id);
+        StateHasChanged();
+    }
 }

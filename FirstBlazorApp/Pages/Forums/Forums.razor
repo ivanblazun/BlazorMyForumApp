@@ -3,9 +3,7 @@
 @using ForumAdminPanel.Models;
 @inject ForumService forumService
 
-<div>
-    <button class="btn btn-outline-primary">Add new sub-forum</button>
-</div>
+<div class="d-flex flex">
 
 <div class="row">
     @foreach (var forum in forumService.GetAllForums())
@@ -14,7 +12,23 @@
     }
 </div>
 
+    <div>
+        <div>
+            <button class="btn btn-outline-primary">Add new sub-forum</button>
+        </div>
+        <div>
+           <input 
+        </div>
+    </div>  
+</div>
+
 
 @code {
 
+    //List<>
+
+    //protected override void OnInitialized()
+    //{
+        
+    //}
 }

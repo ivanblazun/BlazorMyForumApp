@@ -1,0 +1,27 @@
+﻿@using ForumAdminPanel.Models;
+@inject NavigationManager navManager
+
+<div class="col-3 m-1 mt-1 shadow">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@theme.Title</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
+            @if (theme.ThemeBody != null)
+            {
+                <p class="card-text theme-body">@theme.ThemeBody</p>
+            }
+            <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-info btn-sm">Read Theme</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Theme? theme { get; set; }
+
+    private void GetToPosts(int id)
+    {
+        string location = "/posts/" + id.ToString();
+        navManager.NavigateTo(location, true);
+    }
+}

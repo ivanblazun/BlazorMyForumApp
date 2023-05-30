@@ -11,6 +11,7 @@ namespace ForumAdminPanel.Models
         public string Title { get; set; }
         public int Value { get; set; }
 
+        public DateTime TimeThemeCreated { get; set; }
         // Navigation props
 
         public System.Nullable<int> UserId { get; set; }

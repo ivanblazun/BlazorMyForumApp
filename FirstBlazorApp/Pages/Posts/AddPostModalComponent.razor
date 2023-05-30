@@ -1,0 +1,46 @@
+﻿@using ForumAdminPanel.Models;
+@using FirstBlazorApp.Auth
+@inject UserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
+@inject PostService postService
+﻿<div class="modal fade show" id="myModal"
+      style="display:block; background-color: rgba(10,10,10,.8);"
+      aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Title</h4>
+                <button type="button" @onclick="(()=>CloseModal.InvokeAsync())" class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                    <input @bind="newPost.Title" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Theme description</span>
+                    <input @bind="newPost.Body" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+            </div>
+            <button @onclick="(()=>{AddNewPost(); CloseModal.InvokeAsync();})">Add post</button>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public int ThemeId { get; set; }
+    [Parameter]
+    public EventCallback<Posts> CloseModal { get; set; }
+
+    Post newPost = new() { };
+
+    async Task AddNewPost()
+    {
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+        //todo ADD USER ID
+        await postService.CreateNewPost(newPost, user.Id, ThemeId);
+    }
+}

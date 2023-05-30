@@ -1,40 +1,80 @@
 ﻿@using ForumAdminPanel.Models;
+@using FirstBlazorApp.Pages.Themes
+@using FirstBlazorApp.Auth
 @page "/singleforum/{id:int}"
 @inject ThemeService themeService
 @inject NavigationManager navManager
+@inject UserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
 
-<div>
-    <button class="btn btn-outline-primary">Add new theme</button>
-</div>
-
-<div class="row">
-    @foreach (var theme in themeService.GetAllThemesFromForum(id))
-    {   
-        <div class="col-3 m-1 mt-1 shadow">
-            <div class="card">
-                <div class="card-body">
-                        <h5 class="card-title">@theme.Title</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
-                    @if(theme.ThemeBody!= null)
-                    {
-                        <p class="card-text theme-body">@theme.ThemeBody</p>
-                    }
-                    <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-info btn-sm">Read Theme</button>
-                </div>
-            </div>
+<div class="">
+        <div>
+            <button class="btn btn-outline-info" @onclick="(()=>navManager.NavigateTo(locationForums,true))">Return to forums</button>
         </div>
-    }
+    <div class="d-flex  gap-1">
+        <div class="d-flex flex-column gap-1">
+            <label for="serachthemes">Search for themes</label>
+            <input type="text" @oninput="SearchThemesaction" 
+                placeholder="Search themes" />
+        </div>
+        <div>
+            <button class="btn btn-outline-primary" @onclick="OpenModal">Add new theme</button>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var theme in themes)
+        {   
+            <ThemeComponent theme="theme"></ThemeComponent>
+        }
+    </div>
 
 </div>
-
+<AuthorizeView>
+    <Authorized>
+        @if (addThemeModalOn)
+        {
+            <AddNewThemeModalComponent CloseModal="CloseModal" ForumId="id"></AddNewThemeModalComponent>
+        }
+    </Authorized>
+</AuthorizeView>
 
 @code {
     [Parameter]
     public int id { get; set; }
 
-    private void GetToPosts(int id)
+    public string SearchInput { get; set; }
+
+    bool addThemeModalOn = false;
+
+    List<Theme>? themes = new List<Theme>();
+
+    List<Theme> searchthemes;
+
+    string locationForums = "/forums";
+
+    protected override async Task OnInitializedAsync()
     {
-        string location = "/posts/" + id.ToString();
-        navManager.NavigateTo(location, true);
+        themes = await themeService.GetAllThemesFromForumAsync(id);
+    }
+
+    private void SearchThemesaction(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+
+        SearchInput = (string)args.Value;
+        SearchInput = SearchInput.ToLowerInvariant();
+
+        themes = themeService.SearchThemes(SearchInput, SearchInput);
+        StateHasChanged();
+    }
+
+    private void OpenModal()
+    {   
+        addThemeModalOn = true; 
+    }
+
+    async Task CloseModal()
+    {
+        addThemeModalOn = false;
+        themes = await themeService.GetAllThemesFromForumAsync(id);
     }
 }
