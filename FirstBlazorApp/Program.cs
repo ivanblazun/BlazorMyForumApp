@@ -29,6 +29,9 @@ builder.Services.AddTransient<AnswerService>();
 builder.Services.AddTransient<UserService>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+//Email service
+builder.Services.AddSingleton<EmailService>();
+
 // Chat service
 builder.Services.AddResponseCompression(options =>
 {

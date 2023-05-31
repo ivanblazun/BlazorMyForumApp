@@ -1,10 +1,11 @@
 ﻿@page "/registeruser"
 
+@using FirstBlazorApp.Models;
 @using ForumAdminPanel.Models;
 @inject UserAccountService userAccountService;
 @inject IJSRuntime js
 @inject NavigationManager navManager
-
+@inject EmailService emailService
 <h3>Register</h3>
 
 
@@ -51,6 +52,13 @@
         registeredUser.Email = model.Email;
 
         userAccountService.RegisterUser(registeredUser);
+
+        RegisterEmail fromUserCredentials = new RegisterEmail();
+
+        fromUserCredentials.body = "Than you for registration, your user name is " + registeredUser.UserName + " and your password is " +registeredUser.Password;
+        fromUserCredentials.subject = "Success registration, thank you " +registeredUser.UserName;
+        fromUserCredentials.to = registeredUser.Email;
+        emailService.SendRegisterMail(fromUserCredentials);      
 
     }
 

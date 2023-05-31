@@ -31,31 +31,41 @@ namespace FirstBlazorApp.Services
             }
         }
 
-        public void RegisterUser(User user) 
-        {
-            using ( var context = _dbContextFactory.CreateDbContext())
+        public User RegisterUser(User user) 
+        {   
+            if(user != null)
             {
-                bool doesUserExist = context.Users.Any(U => U.UserName == user.UserName && U.Email == user.Email);
+                using ( var context = _dbContextFactory.CreateDbContext())
+                {
+                    bool doesUserExist = context.Users.Any(U => U.UserName == user.UserName && U.Email == user.Email);
 
-                if (doesUserExist)
-                {
-                    
-                }
-                else
-                {
-                    User registeredUser = new User
+                    if (doesUserExist)
                     {
-                        UserName = user.UserName,
-                        Email = user.Email,
-                        Password = user.Password,
-                        RegisteredDate = DateTime.UtcNow,
-                        UserStatus = 3
-                    };
+                        return null;
+                    }
+                    else
+                    {
+                        User registeredUser = new User
+                        {
+                            UserName = user.UserName,
+                            Email = user.Email,
+                            Password = user.Password,
+                            RegisteredDate = DateTime.UtcNow,
+                            UserStatus = 3
+                        };
 
-                    context.Users.Add(registeredUser);
-                    context.SaveChanges();
+                        context.Users.Add(registeredUser);
+                        context.SaveChanges();
+
+                        return registeredUser;
+                    }
                 }
             }
+            else
+            {
+                return null;
+            }
+            
         }
     }
 }
