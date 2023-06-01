@@ -1,5 +1,6 @@
 ﻿using FirstBlazorApp.Auth;
 using FirstBlazorApp.Data;
+using FirstBlazorApp.Pages.Posts;
 using ForumAdminPanel.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -55,6 +56,27 @@ namespace FirstBlazorApp.Services
             return returnedPosts;
         }
 
+        // Get single post 
+        public async Task<Post> GetSinglePostAsync(int postId)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                bool doesPostexist = context.Posts.Any(P => P.Id == postId);
+
+                if (doesPostexist && postId != null)
+                {
+                    Post post = await context.Posts.FirstOrDefaultAsync(P => P.Id == postId);
+
+                    return post;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         // Get post creator
         public string GetUserCreatorOfPost(int userId)
         {
@@ -96,5 +118,50 @@ namespace FirstBlazorApp.Services
                 else { return null; }
             }
         }
-    }
+        
+        // Update post 
+        public async Task<Post> UpadetPostAsync(Post inputPost, int postId)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                bool doesPostexist = context.Posts.Any(P => P.Id == postId);
+
+                if (doesPostexist && postId != null)
+                {
+                    Post post = await context.Posts.FirstOrDefaultAsync(P => P.Id == postId);
+
+                    post.Title= inputPost.Title;
+                    post.Body = inputPost.Body;
+                    post.TimePostCreated= DateTime.UtcNow;
+                    post.Value = 0;
+
+                    context.SaveChanges();
+
+                    return post;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        // Delete post
+        public async Task DeletePostAsync(Post deletedPost)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {   
+                bool doesPostExist = await context.Posts.AnyAsync(P => P.Id == deletedPost.Id);
+
+                if (doesPostExist && deletedPost != null) 
+                {   
+                    Post post = context.Posts.FirstOrDefault(p => p.Id == deletedPost.Id);
+
+                    context.Posts.Remove(post);
+                    context.SaveChanges();
+                }
+                
+            }
+        }
+    }   
 }

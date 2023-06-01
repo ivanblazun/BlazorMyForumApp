@@ -19,13 +19,13 @@
         <button class="btn btn-success mb-1" @onclick="OpenModal">Add post</button>    
     </Authorized>
 </AuthorizeView>
-<button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum+id.ToString(),true))">Return to themes</button>
+<button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
 
 @if(posts != null)
 {
     @foreach (var post in posts)
     {
-        <PostComponent Post="post"></PostComponent>
+        <PostComponent DeletePost="DeletePostAction" Post="post"></PostComponent>
     }
 }
 else
@@ -66,6 +66,18 @@ else
     private async Task<Theme> GetCurrentTheme()
     {
         return currentTheme = await themeService.GetThemeAsync(id);
+    }
+
+    private async Task DeletePostAction(Post post)
+    {
+        postService.DeletePostAsync(post);
+        posts = await postService.GetAllPostsFromThemeAsync(id);
+        StateHasChanged();
+    }
+
+    private async Task UpdatePostAction(Post post)
+    {
+        
     }
 
 }

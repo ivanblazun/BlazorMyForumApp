@@ -5,6 +5,7 @@
 @inject AnswerService answerService
 @inject UserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
 
 <div class="card">
     <div class="card-header">
@@ -19,8 +20,8 @@
               <button class="btn btn-primary" @onclick="(()=>{AddAnswer(Post.Id);})">Give Answer</button>
             </Authorized>
         </AuthorizeView>
-        <a href="#" class="btn btn-secondary">Edit</a>
-        <a href="#" class="btn btn-warning">Delete</a>
+        <button type="button" class="btn btn-secondary" @onclick="(()=>{navManager.NavigateTo(updatePostLocation+Post.Id,true);})">Edit</button>
+        <button type="button" class="btn btn-warning" @onclick="(()=>{DeletePost.InvokeAsync(Post);})">Delete</button>
     </div>
     <div>
         @if (answerService.GetAnswersForPost(Post.Id) != null)
@@ -49,6 +50,13 @@
     public Post Post { get; set; }
     [Parameter]
     public Theme Theme { get; set; }
+
+    [Parameter]
+    public EventCallback<Post> DeletePost{ get; set; }
+    [Parameter]
+    public EventCallback<Post> UpdatePost{ get; set; }
+
+    string updatePostLocation = "/updatepost/";
 
     bool viewGiveAnswer = false;
 

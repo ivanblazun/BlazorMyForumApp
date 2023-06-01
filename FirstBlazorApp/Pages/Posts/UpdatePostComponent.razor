@@ -1,0 +1,48 @@
+﻿@page "/updatepost/{id:int}"
+@using ForumAdminPanel.Models;
+@inject UserService userService
+@inject PostService postService
+@inject NavigationManager navManager
+@inject IJSRuntime js
+<h3>Update post Component</h3>
+
+<div>
+    <button @onclick="@(()=>{navManager.NavigateTo("/",true);})" class="btn btn-info btn-sm">
+        Back to home
+    </button>
+</div>
+
+<EditForm Model="@Post" OnSubmit="@SaveChanges">
+    <div class="mb-3">
+        <label for="updatePostTitle" class="form-label">Title</label>
+        <input type="text" class="form-control" id="updatePostTitle" placeholder="@Post.Title" @bind="@Post.Title">
+    </div>
+    <div class="mb-3">
+        <label for="updatePostBody" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="updatePostBody" placeholder="@Post.Body" @bind="@Post.Body">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    [Parameter]
+    public int ThemeId { get; set; }
+
+    Post Post = new Post();
+
+    private void SaveChanges()
+    {
+        postService.UpadetPostAsync(Post, id);
+        js.InvokeVoidAsync("alert", "Post updated");
+        navManager.NavigateTo("/", true);
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Post = await postService.GetSinglePostAsync(id);
+    }
+}
