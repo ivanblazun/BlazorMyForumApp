@@ -1,5 +1,6 @@
 ﻿@using ForumAdminPanel.Models;
 @inject NavigationManager navManager
+@inject ThemeService themeService
 
 <div class="col-3 m-1 mt-1 shadow">
     <div class="card">
@@ -11,19 +12,38 @@
                 <p class="card-text theme-body">@theme.ThemeBody</p>
             }
             <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
-            <button type="button"  class="btn btn-outline-info btn-sm">Edit Theme</button>
+            <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
             <button type="button"  class="btn btn-outline-danger btn-sm">Delete Theme</button>
         </div>
     </div>
 </div>
+@if (addThemeupdateModalOn == true )
+{
+    <UpdateThemeModalComponent Theme="@theme" ThemeId="theme.Id" CloseModal="CloseModal"></UpdateThemeModalComponent>
+    
+}
 
 @code {
     [Parameter]
     public Theme? theme { get; set; }
 
+    bool addThemeupdateModalOn = false;
+
     private void GetToPosts(int id)
     {
         string location = "/posts/" + id.ToString();
         navManager.NavigateTo(location, true);
+    }
+
+    private void OpenModal()
+    {
+        addThemeupdateModalOn = true;
+    }
+
+    async Task CloseModal()
+    {
+        addThemeupdateModalOn = false;
+        theme = await themeService.GetThemeAsync(theme.Id);
+        StateHasChanged();
     }
 }

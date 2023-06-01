@@ -90,7 +90,40 @@ namespace FirstBlazorApp.Services
         }
 
         // Update theme
-    
+        public async Task<Theme> UpdateThemeAsync(Theme inputTheme,int themeId)
+        {
+            using(var context = _dbContextFactory.CreateDbContext())
+            {   
+                if(themeId != null)
+                {
+                    bool doesThemeExist=await  context.Themes.AnyAsync(T => T.Id == themeId);
+
+                    if(doesThemeExist)
+                    {
+                        Theme theme = await context.Themes.FirstOrDefaultAsync(T => T.Id == themeId);
+
+                        theme.Title= inputTheme.Title;
+                        theme.Value = 0;
+                        theme.ThemeBody = inputTheme.ThemeBody;
+                        theme.TimeThemeCreated = DateTime.UtcNow;
+                        theme.ForumId= inputTheme.ForumId;
+
+                        context.SaveChanges();
+
+                        return theme;
+
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
     }
 }
