@@ -88,5 +88,9 @@ namespace FirstBlazorApp.Services
                 else { return null; }
             }
         }
+
+        // Update theme
+    
+
     }
 }

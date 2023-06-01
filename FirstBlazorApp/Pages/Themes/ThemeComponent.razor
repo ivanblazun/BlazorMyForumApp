@@ -10,7 +10,9 @@
             {
                 <p class="card-text theme-body">@theme.ThemeBody</p>
             }
-            <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-info btn-sm">Read Theme</button>
+            <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
+            <button type="button"  class="btn btn-outline-info btn-sm">Edit Theme</button>
+            <button type="button"  class="btn btn-outline-danger btn-sm">Delete Theme</button>
         </div>
     </div>
 </div>
