@@ -27,6 +27,7 @@ builder.Services.AddTransient<ForumService>();
 builder.Services.AddTransient<ThemeService>();
 builder.Services.AddTransient<AnswerService>();
 builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<ImageService>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
 //Email service

@@ -1,4 +1,5 @@
-﻿using ForumAdminPanel.Models;
+﻿using FirstBlazorApp.Models;
+using ForumAdminPanel.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FirstBlazorApp.Data
@@ -16,5 +17,8 @@ namespace FirstBlazorApp.Data
         public DbSet<UserStatus> UserStatuses { get; set; }
         public DbSet<Response> Responses { get; set; }
         public DbSet<MainForum> MainForums { get; set; }
+
+        public DbSet<Images> Images { get; set; }
+
     }
 }
