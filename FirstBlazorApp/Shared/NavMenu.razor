@@ -46,6 +46,7 @@
             <btn class="btn btn-outline-info href="https://docs.microsoft.com/aspnet/" target="_blank">About</btn>
             <AuthorizeView>
                 <Authorized>
+                    <button class="btn btn-outline-light" @onclick="GoToMyProfile">My Profile</button>
                     <a class="btn btn-outline-danger" @onclick="Logout" href="javascript:void(0)">Logout</a>
                 </Authorized>
                 <NotAuthorized>
@@ -92,13 +93,41 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    User user = new User();
 
+    string userProfileLink = "";
 
     protected override async Task OnInitializedAsync()
     {
         forasList = await forumService.GetAllForumsAsync();
     }
 
+    //private async Task<string> GetUserProfileLink()
+    //{
+
+    //    if ((AuthProccedure)authenticationStateProvider != null)
+    //    {
+    //        var customAuthstateProvider = (AuthProccedure)authenticationStateProvider;
+    //        user = await customAuthstateProvider.GetCurrentUserAsync();
+
+    //        userProfileLink = "userprofile" + user.Id.ToString();
+
+    //        return userProfileLink;
+    //    }
+    //    else { return null; }
+    //}
+
+    public async Task GoToMyProfile()
+    {
+        
+        if ((AuthProccedure)authenticationStateProvider != null)
+        {
+            var customAuthstateProvider = (AuthProccedure)authenticationStateProvider;
+            user = await customAuthstateProvider.GetCurrentUserAsync();
+            navManager.NavigateTo("/userprofile/"+user.Id, true);
+        }
+        
+    }
 
     public async Task Logout()
     {

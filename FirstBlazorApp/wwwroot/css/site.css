@@ -73,3 +73,9 @@ a, .btn-link {
     font-size: 14px;
     font-family: cursive;
 }
+
+/*User Images*/
+.PostUserImage{
+    max-width:60px;
+    max-height:60px;
+}

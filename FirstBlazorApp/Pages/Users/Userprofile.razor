@@ -1,0 +1,95 @@
+﻿@page "/userprofile/{id:int}"
+@using FirstBlazorApp.Auth;
+@using ForumAdminPanel.Models;
+
+@inject UserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
+@inject ImageService imageService
+@inject UserService userService
+@inject NavigationManager navManager
+
+<div class="d-flex" style="width: 18rem;">
+    <img src="@imagePath" class="card-img-top" alt="...">
+    <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-info btn-sm">Change profile image</button>
+    <div class="card-body">
+        <h5 class="card-title">@user.UserName</h5>
+        @switch (user.UserStatus)
+        {   case 1 :
+                <p>Status: Admin</p>
+                break;
+            case 2:
+                <p>Status: Power user</p>
+                break;
+            case 3:
+                <p>Status: User</p>
+                break;
+        }
+        <p class="card-text">My email: @user.Email</p>
+        <p class="card-text">First name: @userprofile.FirstName</p>
+        <p class="card-text">Last name: @userprofile.LastName</p>
+         <p class="card-text">My UserID: @userprofile.UserId</p>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">About myself:</h5>
+        <p class="card-text">@userprofile.AboutMyself</p
+    </div>
+    <div class="d-flex align-items-sm-start m-1 g-1">
+            <div>
+                <button @onclick="@(()=>{GoToUser(user.Id);})" class="btn btn-info btn-sm">
+                    Change user properties
+                </button>
+            </div>
+            <div>
+                <button @onclick="@(()=>{GoToUserProfile(user.Id);})" class="btn btn-outline-primary btn-sm">
+                    Change user profile properties
+                </button>
+            </div>
+
+    </div>
+</div>
+    @if (imageUploadSelect)
+    {
+        <FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>
+    }
+@code {
+    [Parameter]
+    public int id { get; set; }
+    User user = new();
+    ForumAdminPanel.Models.UserProfile userprofile = new();
+
+    string imagePath = "";
+
+    bool imageUploadSelect = false;
+
+    protected override async Task OnInitializedAsync()
+    {   
+
+        user = userService.GetUser(id);
+        imagePath = await imageService.GetImage(user);
+        userprofile = userService.GetUserProfile(user.Id);
+        //postUser = await postService.GetUserCreatorOfPost(Post.UserId);
+    }
+
+    private void GoToUser(int id)
+    {
+        string location = "/updateuser/" + id.ToString();
+        navManager.NavigateTo(location, true);
+    }
+    private void GoToUserProfile(int id)
+    {
+        string location = "/updateuserprofile/" + id.ToString();
+        navManager.NavigateTo(location, true);
+    }
+    private void ChangeProfileImage()
+    {
+        if (imageUploadSelect == false)
+        {
+            imageUploadSelect = true;
+
+        }
+        else { imageUploadSelect = false;}
+        //string location = "/imageupload";
+        //navManager.NavigateTo(location, true);
+    }
+
+}

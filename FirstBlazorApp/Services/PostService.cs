@@ -78,15 +78,15 @@ namespace FirstBlazorApp.Services
         }
 
         // Get post creator
-        public string GetUserCreatorOfPost(int userId)
+        public async Task<User> GetUserCreatorOfPost(int userId)
         {
             using (var context = _dbContextFactory.CreateDbContext())
             {
                 User user = new User();
-                user = context.Users.Where(U => U.Id == userId).FirstOrDefault();
+                user = await context.Users.Where(U => U.Id == userId).FirstOrDefaultAsync();
                 if (user != null)
                 {
-                    return user.UserName.ToString();
+                    return user;
                 }
                 else
                 {

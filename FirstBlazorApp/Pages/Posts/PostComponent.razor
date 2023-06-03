@@ -1,4 +1,5 @@
-﻿@using ForumAdminPanel.Models;
+﻿@using FirstBlazorApp.Pages.Images;
+@using ForumAdminPanel.Models;
 @using FirstBlazorApp.Pages.Answers
 @using FirstBlazorApp.Auth
 @inject PostService postService
@@ -6,6 +7,7 @@
 @inject UserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
+@inject ImageService imageService
 
 <div class="card">
     <div class="card-header">
@@ -13,7 +15,8 @@
         <p>@Post.TimePostCreated</p>
     </div>
     <div class="card-body">
-        <h5 class="card-title">@postService.GetUserCreatorOfPost(Post.UserId)</h5>
+        <h5 class="card-title">@postUser.UserName</h5>
+        <PostImageDisplayComponent CurrentPost="Post"></PostImageDisplayComponent>
         <p class="card-text">@Post.Body</p>
          <AuthorizeView>
              <Authorized>
@@ -66,6 +69,15 @@
     }
 
     User CurrentUser = new User();
+
+
+    User postUser = new();
+    protected override async Task OnInitializedAsync()
+    {
+        postUser = await postService.GetUserCreatorOfPost(Post.UserId);
+    }
+
+ 
 
     async Task AddNewAnswer(Answer answer)
     {

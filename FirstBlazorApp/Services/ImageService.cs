@@ -23,6 +23,13 @@ namespace FirstBlazorApp.Services
         {
             using (var contex = _dbContextFactory.CreateDbContext())
             {
+                bool doesImageAlredyExist = contex.Images.Any(I => I.UserId == currentUser.Id);
+                if(doesImageAlredyExist)
+                {
+                    Images existingImage = contex.Images.FirstOrDefault(I => I.UserId == currentUser.Id);
+                    contex.Images.Remove(existingImage);
+                    contex.SaveChanges();
+                }
                 try
                 {
                     if(imageImport != null)
@@ -61,7 +68,7 @@ namespace FirstBlazorApp.Services
 
             Img.Content = ms.ToArray();
             Img.Title = e.File.Name;
-            Img.UserId = 1;
+            Img.UserId = user.Id;
 
             SaveImage(Img,user);
                               
@@ -104,9 +111,7 @@ namespace FirstBlazorApp.Services
         //Image from sql converter 
         public string ConvertFromSqlToImage(Images upImage, string imageSrc)
         {
-
             Image IS;
-
             try
             {
 
