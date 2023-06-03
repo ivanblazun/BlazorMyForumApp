@@ -22,6 +22,7 @@ namespace FirstBlazorApp.Auth
             _sessionStorage = sessionStorage;    
             _dbContextFactory = dbContextFactory;
         }
+        public AuthProccedure() { }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {

@@ -1,9 +1,11 @@
-﻿using FirstBlazorApp.Data;
+﻿using FirstBlazorApp.Auth;
+using FirstBlazorApp.Data;
 using FirstBlazorApp.Pages.Users;
 using ForumAdminPanel.Models;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using FirstBlazorApp.Auth;
 
 namespace FirstBlazorApp.Services
 {
@@ -79,6 +81,17 @@ namespace FirstBlazorApp.Services
             }
         }
 
+        // Get current user from session
+        public async Task<User> GetCurrentUserFromSession()
+        {
+            AuthProccedure authProccedure = new AuthProccedure();
+
+            User user = new User();
+            user = await authProccedure.GetCurrentUserAsync();
+            return user;
+        }
+
+
         //Get users profile
         public UserProfile GetUserProfile(int userId)
         {   
@@ -148,6 +161,7 @@ namespace FirstBlazorApp.Services
 
             }
         }
+
         public void SaveUserProfileAndUser(User inputUser, UserProfile inputUserProfile)
         {
             using(var context=_dbContextFactory.CreateDbContext())

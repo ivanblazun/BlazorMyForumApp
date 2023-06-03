@@ -1,76 +1,49 @@
 ﻿@page "/imageupload"
+@using FirstBlazorApp.Auth;
 @using FirstBlazorApp.Models
 @using System.Drawing;
 @using System.Drawing.Imaging;
+@using ForumAdminPanel.Models;
 
+@inject AuthenticationStateProvider authStateProvider
 @inject ImageService imageService
+@inject UserService userService
 <h3>ImageUploadComponent</h3>
 
 
     <label for="img">Select image:</label>
-<InputFile class="custom-file-input" OnChange="SaveImagetoDatabase" accept="image/png, image/jpeg, image/gif" id="inputFile" />
-    <button type="button">Upload</button>
+<InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
+<button onclick="@(()=>{SaveImage();})" type="button">Upload</button>
 
 <img src="@imageSrc" />
 @code {
 
-    private List<string> imageSources;
+    public InputFileChangeEventArgs InputImage;
 
-    Images Img = new Images();
 
-    Images UpImg = new();
-
-    Image IS;
 
     private string imageSrc;
-
     protected override async Task OnInitializedAsync()
-    {
-        UpImg = await imageService.GetImage(14);
-
-        try
-        {
-            Byte[] data = new Byte[0];
-            data = (Byte[])UpImg.Content;
-            MemoryStream ms = new MemoryStream(data);
-            IS = Image.FromStream(ms);
-
-            ImageConverter ic = new ImageConverter();
-            byte[] thumbBytes = (byte[])ic.ConvertTo(IS, typeof(byte[]));
-            string img64 = Convert.ToBase64String(thumbBytes);
-            imageSrc = string.Format("data:image/jpg;base64, {0}", img64);
-
-            //imageSrc = string.Format("data:image/jpg;base64{0}", Convert.ToBase64String(UpImg.Content));
-        }
-        catch (Exception)
-        {
-            
-            throw;
-        }
-    }
-
-    public byte[] imageToByteArray(System.Drawing.Image imageIn)
-    {
-        MemoryStream ms = new MemoryStream();
-        imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-        return ms.ToArray();
-    }
-
-    public async Task SaveImagetoDatabase(InputFileChangeEventArgs e)
     {   
-        using MemoryStream ms = new();
-        var resized = await e.File.RequestImageFileAsync(e.File.ContentType, maxWidth: 500, maxHeight: 800);
-        using Stream fileStream = resized.OpenReadStream();
-        await fileStream.CopyToAsync(ms);
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user = await customAuthstateProvider.GetCurrentUserAsync();
 
-        Img.Content = ms.ToArray();
-        Img.Title = e.File.Name;
-        Img.UserId = 1;
+        imageSrc = await imageService.GetImage(user);         
+    }
 
-       imageService.SaveImage(Img);
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        InputImage = e;
+        this.StateHasChanged();
+    }
 
 
-        //var fileString = $"data:{e.File.ContentType};base64,{Convert.ToBase64String(ms.ToArray())}";
+    public async Task SaveImage()
+    {
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+        imageService.SaveImagetoDatabase(InputImage,user);
 
     }
 }
