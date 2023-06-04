@@ -125,5 +125,30 @@ namespace FirstBlazorApp.Services
             }
         }
 
+        // Delete them 
+        public async Task DeleteTheme(int themeId)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                try
+                {
+                    if(themeId != null &&  await context.Themes.AnyAsync(t => t.Id == themeId) == true)
+                    {
+                        Theme theme= await context.Themes.FirstOrDefaultAsync(t => t.Id == themeId);
+
+                        context.Themes.Remove(theme);
+                        context.SaveChanges();
+                    }
+
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+        
+            }
+        }
+
     }
 }

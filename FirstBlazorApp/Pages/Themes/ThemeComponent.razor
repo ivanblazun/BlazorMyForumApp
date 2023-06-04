@@ -1,6 +1,7 @@
 ﻿@using ForumAdminPanel.Models;
 @inject NavigationManager navManager
 @inject ThemeService themeService
+@inject IJSRuntime js
 
 <div class="col-3 m-1 mt-1 shadow">
     <div class="card">
@@ -13,19 +14,21 @@
             }
             <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
             <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
-            <button type="button"  class="btn btn-outline-danger btn-sm">Delete Theme</button>
+            <button type="button" @onclick="@(()=>{DeleteTheme();})" class="btn btn-outline-danger btn-sm">Delete Theme</button>
         </div>
     </div>
 </div>
 @if (addThemeupdateModalOn == true )
 {
-    <UpdateThemeModalComponent Theme="@theme" ThemeId="theme.Id" CloseModal="CloseModal"></UpdateThemeModalComponent>
+    <UpdateThemeModalComponent ForumId="ForumId" Theme="@theme" ThemeId="theme.Id" CloseModal="CloseModal"></UpdateThemeModalComponent>
     
 }
 
 @code {
     [Parameter]
     public Theme? theme { get; set; }
+    [Parameter]
+    public int ForumId{ get; set; }
 
     bool addThemeupdateModalOn = false;
 
@@ -34,6 +37,18 @@
         string location = "/posts/" + id.ToString();
         navManager.NavigateTo(location, true);
     }
+
+    private async Task DeleteTheme()
+    {
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "Are you sure?"); // Confirm
+        if (confirmed)
+        {
+        await themeService.DeleteTheme(theme.Id);
+        navManager.NavigateTo("/singleforum/" + ForumId, true);
+            
+        }
+        else{}
+    } 
 
     private void OpenModal()
     {

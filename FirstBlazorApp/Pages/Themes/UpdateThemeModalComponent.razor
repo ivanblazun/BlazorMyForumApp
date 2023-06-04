@@ -4,6 +4,7 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject ThemeService themeService
 @inject NavigationManager navManager
+@inject ForumService forumService
 
 ﻿<div class="modal fade show" id="myModal"
       style="display:block; background-color: rgba(10,10,10,.8);"
@@ -16,7 +17,7 @@
             </div>
             <div class="modal-body">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default" required>Title</span>
                     <input @bind="currentTheme.Title" placeholder="@Theme.Title" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
                 <div class="input-group mb-3">
@@ -25,7 +26,15 @@
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default">Themes Forum</span>
-                    <input @bind="currentTheme.ForumId" placeholder="@Theme.ForumId" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    @*<input @bind="currentTheme.ForumId" type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">*@
+                  <select @bind="currentTheme.ForumId" required>
+                       @foreach (var forum in forumService.GetAllForums())
+                        {   
+                            
+                            <option value="@forum.Id">@forum.Name / @forum.Id</option>
+                        }
+                  </select>
+                
                 </div>
 
             </div>
@@ -40,15 +49,17 @@
     public EventCallback<Theme> CloseModal { get; set; }
     [Parameter]
     public  Theme Theme { get; set; }
+    [Parameter]
+    public int ForumId { get; set; }
 
 
     Theme currentTheme = new() {};
 
-    string location = "/singleforum/3";
+    string location = "/singleforum/";
 
     async Task UpdateThemeAction()
     {
         await themeService.UpdateThemeAsync(currentTheme, Theme.Id);
-        navManager.NavigateTo(location, true);
+        navManager.NavigateTo(location + ForumId.ToString(), true);
     }
 }
