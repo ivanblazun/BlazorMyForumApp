@@ -88,6 +88,20 @@ namespace FirstBlazorApp.Services
                 else { return null; }
             }
         }
+        // Get Theme by title
+        public Theme GetThemeByTitle(string themeTitle)
+        {
+            Theme theme = new Theme();
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                if (themeTitle != null)
+                {
+                    theme = context.Themes.FirstOrDefault(T => T.Title == themeTitle);
+                    return theme;
+                }
+                else { return null; }
+            }
+        }
 
         // Update theme
         public async Task<Theme> UpdateThemeAsync(Theme inputTheme,int themeId)

@@ -34,6 +34,9 @@ namespace FirstBlazorApp.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("ThemeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("TimePostCreated")
                         .HasColumnType("datetime2");
 
@@ -45,6 +48,8 @@ namespace FirstBlazorApp.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ThemeId");
 
                     b.HasIndex("UserId");
 
@@ -325,11 +330,19 @@ namespace FirstBlazorApp.Migrations
 
             modelBuilder.Entity("FirstBlazorApp.Models.Images", b =>
                 {
+                    b.HasOne("ForumAdminPanel.Models.Theme", "Theme")
+                        .WithMany()
+                        .HasForeignKey("ThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ForumAdminPanel.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Theme");
 
                     b.Navigation("User");
                 });

@@ -18,7 +18,7 @@ namespace FirstBlazorApp.Services
         }
         
         ///////////////////////////////////////////////////
-        // Save Image to DB
+        // Save Image of user to DB 
         public Images SaveImage(Images imageImport,User currentUser)
         {
             using (var contex = _dbContextFactory.CreateDbContext())
@@ -56,6 +56,7 @@ namespace FirstBlazorApp.Services
         
         }
 
+        // For User Images 
         public async Task SaveImagetoDatabase(InputFileChangeEventArgs e,User user)
         {
 
@@ -72,6 +73,35 @@ namespace FirstBlazorApp.Services
 
             SaveImage(Img,user);
                               
+
+        }
+
+        // For Theme Images
+        public async Task SaveImagetoDatabase(InputFileChangeEventArgs e, User user,Theme theme)
+        {
+            try
+            {
+                Images Img = new Images();
+
+                using MemoryStream ms = new();
+                var resized = await e.File.RequestImageFileAsync(e.File.ContentType, maxWidth: 500, maxHeight: 500);
+                using Stream fileStream = resized.OpenReadStream();
+                await fileStream.CopyToAsync(ms);
+
+                Img.Content = ms.ToArray();
+                Img.Title = e.File.Name;
+                Img.UserId = user.Id;
+                Img.ThemeId= theme.Id;
+
+                SaveImage(Img, user);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
 

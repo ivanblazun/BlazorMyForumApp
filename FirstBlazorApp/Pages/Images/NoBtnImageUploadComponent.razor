@@ -1,0 +1,54 @@
+﻿<h3>NoBtnImageUploadComponent</h3>
+
+@code {
+
+}
+
+@using FirstBlazorApp.Auth;
+@using FirstBlazorApp.Models
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using ForumAdminPanel.Models;
+
+@inject AuthenticationStateProvider authStateProvider
+@inject ImageService imageService
+@inject UserService userService
+<h3>ImageUploadComponent</h3>
+
+
+<label for="img">Select image:</label>
+<InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
+
+
+
+@code {
+
+    public InputFileChangeEventArgs InputImage;
+
+
+
+    private string imageSrc;
+    protected override async Task OnInitializedAsync()
+    {
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+        imageSrc = await imageService.GetImage(user);
+    }
+
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        InputImage = e;
+        this.StateHasChanged();
+    }
+
+
+    public async Task SaveImage()
+    {
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+        imageService.SaveImagetoDatabase(InputImage, user);
+
+    }
+}

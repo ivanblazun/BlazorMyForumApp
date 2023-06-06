@@ -15,5 +15,10 @@ namespace FirstBlazorApp.Models
 
         public User User { get; set; }
 
+        public int ThemeId { get; set; }
+
+        public Theme Theme { get; set; }
+
+
     }
 }
