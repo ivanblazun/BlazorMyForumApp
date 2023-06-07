@@ -5,6 +5,7 @@
 @inject ThemeService themeService
 @inject NavigationManager navManager
 @inject ForumService forumService
+@inject ImageService imageService
 
 ﻿<div class="modal fade show" id="myModal"
       style="display:block; background-color: rgba(10,10,10,.8);"
@@ -36,6 +37,10 @@
                   </select>
                 
                 </div>
+                 <div>
+                <label for="img">Select image:</label>
+                <InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
+                </div>
 
             </div>
             <button @onclick="(()=>{UpdateThemeAction(); CloseModal.InvokeAsync();})">Update theme</button>
@@ -57,9 +62,42 @@
 
     string location = "/singleforum/";
 
+    public InputFileChangeEventArgs InputImage;
+
+
+
+    private string imageSrc;
+
     async Task UpdateThemeAction()
     {
         await themeService.UpdateThemeAsync(currentTheme, Theme.Id);
+        await SaveImage(currentTheme);
+        
         navManager.NavigateTo(location + ForumId.ToString(), true);
+
+
+    }
+
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        InputImage = e;
+        this.StateHasChanged();
+    }
+
+    public async Task SaveImage(Theme currTheme)
+    {
+        try
+        {
+            var customAuthstateProvider = (AuthProccedure)authStateProvider;
+            User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+            imageService.SaveImagetoDatabase(InputImage, user, currTheme);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
     }
 }

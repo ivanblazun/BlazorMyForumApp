@@ -96,10 +96,10 @@ namespace FirstBlazorApp.Services
                 SaveImage(Img, user);
 
             }
-            catch (Exception)
+            catch (Exception q)
             {
 
-                throw;
+                throw q;
             }
 
 
