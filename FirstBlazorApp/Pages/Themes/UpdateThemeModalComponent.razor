@@ -62,15 +62,41 @@
 
     string location = "/singleforum/";
 
+    public InputFileChangeEventArgs InputImage;
+
+
+
+    private string imageSrc;
+
     async Task UpdateThemeAction()
     {
         await themeService.UpdateThemeAsync(currentTheme, Theme.Id);
-
-        Theme getThemeBack = themeService.GetThemeByTitle(currentTheme.Title);
-
-        await SaveImage(getThemeBack);
-
         navManager.NavigateTo(location + ForumId.ToString(), true);
+
+
+    }
+
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        InputImage = e;
+        this.StateHasChanged();
+    }
+
+    public async Task SaveImage(Theme currTheme)
+    {
+        try
+        {
+            var customAuthstateProvider = (AuthProccedure)authStateProvider;
+            User user = await customAuthstateProvider.GetCurrentUserAsync();
+
+            imageService.SaveImagetoDatabase(InputImage, user, currTheme);
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+
     }
 
     private void OnInputFileChange(InputFileChangeEventArgs e)
