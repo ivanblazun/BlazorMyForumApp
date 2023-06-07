@@ -56,7 +56,7 @@
     [Parameter]
     public int ForumId { get; set; }
 
-    public InputFileChangeEventArgs InputImage;
+
 
     Theme currentTheme = new() {};
 
@@ -76,11 +76,6 @@
 
     }
 
-    private void OnInputFileChange(InputFileChangeEventArgs e)
-    {
-        InputImage = e;
-        this.StateHasChanged();
-    }
 
     public async Task SaveImage(Theme currTheme)
     {
@@ -105,20 +100,5 @@
         this.StateHasChanged();
     }
 
-    public async Task SaveImage(Theme currTheme)
-    {
-        try
-        {
-            var customAuthstateProvider = (AuthProccedure)authStateProvider;
-            User user = await customAuthstateProvider.GetCurrentUserAsync();
 
-            imageService.SaveImagetoDatabase(InputImage, user, currTheme);
-        }
-        catch (Exception)
-        {
-
-            throw;
-        }
-
-    }
 }
