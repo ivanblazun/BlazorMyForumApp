@@ -9,8 +9,11 @@
 @inject NavigationManager navManager
 
 <div class="d-flex" style="width: 18rem;">
-   
-    <img src="@imagePath" class="card-img-top" alt="...">
+    
+    @if(imagePath != null)
+    {
+        <img src="@imagePath" class="card-img-top" alt="...">
+    }
 
     <div class="card-body">
         <h5 class="card-title">@user.UserName</h5>
@@ -87,6 +90,7 @@
         if (imageUploadSelect == false)
         {
             imageUploadSelect = true;
+         
 
         }
         else { imageUploadSelect = false;}

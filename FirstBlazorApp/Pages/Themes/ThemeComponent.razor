@@ -2,11 +2,13 @@
 @inject NavigationManager navManager
 @inject ThemeService themeService
 @inject IJSRuntime js
+@inject ImageService imageService
 
 <div class="col-3 m-1 mt-1 shadow">
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">@theme.Title</h5>
+            <FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent CurrentTheme="theme"></FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent>
             <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
             @if (theme.ThemeBody != null)
             {

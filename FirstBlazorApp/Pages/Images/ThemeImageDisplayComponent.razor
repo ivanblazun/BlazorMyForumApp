@@ -1,0 +1,35 @@
+﻿
+@using FirstBlazorApp.Auth;
+@using FirstBlazorApp.Models
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using ForumAdminPanel.Models;
+
+@inject AuthenticationStateProvider authStateProvider
+@inject ImageService imageService
+@inject UserService userService
+@inject ThemeService themeService
+
+@if (imageSrc != null)
+{
+    <img src="@imageSrc" class="PostUserImage"/>
+}
+@code {
+
+    [Parameter]
+    public Theme CurrentTheme { get; set; }
+
+    Theme theme = new();
+      
+    private string imageSrc;
+    protected override async Task OnInitializedAsync()
+    {   
+        theme = await themeService.GetThemeAsync(CurrentTheme.Id);
+       
+        if (await imageService.GetImage(theme) != null)
+        {
+            imageSrc = await imageService.GetImage(theme);
+        }
+    }
+
+}

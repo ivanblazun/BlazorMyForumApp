@@ -24,7 +24,9 @@ namespace FirstBlazorApp.Services
             using (var contex = _dbContextFactory.CreateDbContext())
             {
                 bool doesImageAlredyExist = contex.Images.Any(I => I.UserId == currentUser.Id);
-                if(doesImageAlredyExist)
+                bool doesImageHasThemeId = contex.Images.Any(I => I.ThemeId == null);
+
+                if (doesImageAlredyExist && doesImageHasThemeId) 
                 {
                     Images existingImage = contex.Images.FirstOrDefault(I => I.UserId == currentUser.Id);
                     contex.Images.Remove(existingImage);
@@ -39,8 +41,9 @@ namespace FirstBlazorApp.Services
                         image.Content = imageImport.Content;
                         image.TimePostCreated = DateTime.UtcNow;
                         image.UserId = currentUser.Id;
+                        //image.ThemeId = 9;
 
-                       contex.Add(image);
+                        contex.Add(image);
                         contex.SaveChanges();
 
                         return image;
@@ -54,6 +57,51 @@ namespace FirstBlazorApp.Services
                 }
             }
         
+        }
+
+        // Save Image of theme to DB 
+        public Images SaveImage(Images imageImport, User currentUser,Theme theme)
+        {
+            using (var contex = _dbContextFactory.CreateDbContext())
+            {
+                // bool doesImageAlredyExist = contex.Images.Any(I => I.UserId == currentUser.Id);
+                bool doesImageHasUserId = contex.Images.Any(I => I.UserId == null);
+                bool doesImageHasThemeId = contex.Images.Any(I=>I.ThemeId ==  theme.Id);
+                if (doesImageHasUserId && doesImageHasThemeId)
+                {
+                    Images existingImage = contex.Images.FirstOrDefault(I => I.ThemeId == theme.Id);
+                    contex.Images.Remove(existingImage);
+                    contex.SaveChanges();
+                }
+                else
+                {
+
+                    try
+                    {
+                        if (imageImport != null)
+                        {
+                            Images image = new Images();
+                            image.Title = imageImport.Title;
+                            image.Content = imageImport.Content;
+                            image.TimePostCreated = DateTime.UtcNow;
+                            image.ThemeId = theme.Id;
+
+                            contex.Add(image);
+                            contex.SaveChanges();
+
+                            return image;
+                        }
+                        else { return null; }
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                }
+                    return null;
+            }
+
         }
 
         // For User Images 
@@ -90,10 +138,9 @@ namespace FirstBlazorApp.Services
 
                 Img.Content = ms.ToArray();
                 Img.Title = e.File.Name;
-                Img.UserId = user.Id;
                 Img.ThemeId= theme.Id;
 
-                SaveImage(Img, user);
+                SaveImage(Img, user,theme);
 
             }
             catch (Exception)
@@ -105,9 +152,14 @@ namespace FirstBlazorApp.Services
 
         }
 
+
+
+
         ///////////////////////////////////////////////////
         // Call image and convert from sql to image string,
         // Returns "path" to string (string imageSrc = returned string)
+
+        // Get image for User
         public async Task<string> GetImage(User user)
         {
             string imageSrc = "";
@@ -137,7 +189,38 @@ namespace FirstBlazorApp.Services
                 }
             }
         }
-        
+
+        // get image for theme
+        public async Task<string> GetImage(Theme theme)
+        {
+            string imageSrc = "";
+
+            using (var contex = _dbContextFactory.CreateDbContext())
+            {
+                try
+                {
+                    Images image = new Images();
+
+                    bool doesImgExist = await contex.Images.Where(I => I.ThemeId == theme.Id).AnyAsync();
+
+                    if (doesImgExist)
+                    {
+                        image = await contex.Images.Where(I => I.ThemeId == theme.Id).FirstOrDefaultAsync();
+
+
+                        return ConvertFromSqlToImage(image, imageSrc);
+
+                    }
+                    else { return null; }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
         //Image from sql converter 
         public string ConvertFromSqlToImage(Images upImage, string imageSrc)
         {

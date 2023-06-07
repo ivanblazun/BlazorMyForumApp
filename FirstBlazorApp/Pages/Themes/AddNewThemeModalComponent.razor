@@ -28,7 +28,9 @@
                     <InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
                 </div>
             </div>
-            <button @onclick="(()=>{AddNewTheme(); CloseModal.InvokeAsync();})">Create theme</button>
+            <button @onclick="(()=>{AddNewTheme();})">Create theme</button>
+
+            @*CloseModal.InvokeAsync();*@
         </div>
         
     </div>
