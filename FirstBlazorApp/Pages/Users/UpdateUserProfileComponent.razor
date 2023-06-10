@@ -3,6 +3,7 @@
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
+@attribute [Authorize(Roles = "1,2,3")]
 <h3>UpdateUserProfileComponent</h3>
 
 <div>

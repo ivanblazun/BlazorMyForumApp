@@ -3,7 +3,8 @@
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
-<h3>UpdateUserComponent</h3>
+@attribute [Authorize(Roles = "1,2,3")]
+<h3>Update User Component</h3>
 
 <div>
     <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
