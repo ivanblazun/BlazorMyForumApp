@@ -28,15 +28,23 @@
                 <p>Status: User</p>
                 break;
         }
-        <p class="card-text">My email: @user.Email</p>
-        <p class="card-text">First name: @userprofile.FirstName</p>
-        <p class="card-text">Last name: @userprofile.LastName</p>
-         <p class="card-text">My UserID: @userprofile.UserId</p>
+        @if (userprofile != null)
+        {
+            <p class="card-text">My email: @user.Email</p>
+            <p class="card-text">First name: @userprofile.FirstName</p>
+            <p class="card-text">Last name: @userprofile.LastName</p>
+             <p class="card-text">My UserID: @userprofile.UserId</p>
+        }
     </div>
-    <div class="card-body">
-        <h5 class="card-title">About myself:</h5>
-        <p class="card-text">@userprofile.AboutMyself</p
-    </div>
+        @if (userprofile != null)
+    {
+        <div class="card-body">
+            <h5 class="card-title">About myself:</h5>
+            <p class="card-text">@userprofile.AboutMyself</p
+        </div>
+        
+    }
+
     <div class="d-flex align-items-sm-start m-1 g-1">
             <div>
                 <button @onclick="@(()=>{GoToUser(user.Id);})" class="btn btn-info btn-sm">

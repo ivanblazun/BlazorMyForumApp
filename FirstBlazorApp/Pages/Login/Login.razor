@@ -6,6 +6,7 @@
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
+@inject UserService userService
 
 <h3>Login</h3>
 
@@ -35,16 +36,35 @@
         public string Password { get; set; }
     }
 
+
     private Model model= new Model();
 
+
+    PasswordHandler hash = new PasswordHandler();
+
     private async Task Authenticate()
-    {
+    {   
+        // Set salt for password hash from method in UserService
+        var salt = userService.ReturnSalt();
+
+        hash.HashPasword(model.Password, out salt);
+
+        string hashedPassword = Convert.ToString(hash.HashPasword(model.Password, out salt));
+
+        bool verify = hash.VerifyPassword(model.Password, hashedPassword, salt);
+
         var userAccount = userAccountService.GetByUserName(model.UserName);
-        if (userAccount == null || userAccount.Password != model.Password)
+        if (userAccount == null || !verify)
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
             return;
         }
+
+        //if (userAccount == null || userAccount.Password != model.Password)
+        //{
+        //    await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
+        //    return;
+        //}
 
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         await customAuthstateProvider.UpadateAuthState(new UserSession

@@ -14,14 +14,6 @@ namespace FirstBlazorApp.Services
             _dbContextFactory = dbContextFactory;
         }
 
-
-        public User GetCurrentUser()
-        {
-
-
-            return null;
-        }
-
         public User? GetByUserName(string userName) 
         {
             using (var context = _dbContextFactory.CreateDbContext())
@@ -37,7 +29,7 @@ namespace FirstBlazorApp.Services
             {
                 using ( var context = _dbContextFactory.CreateDbContext())
                 {
-                    bool doesUserExist = context.Users.Any(U => U.UserName == user.UserName && U.Email == user.Email);
+                    bool doesUserExist = context.Users.Where(U => U.UserName == user.UserName && U.Email == user.Email).Any();
 
                     if (doesUserExist)
                     {

@@ -1,14 +1,21 @@
 ﻿@page "/registeruser"
 
+@using FirstBlazorApp.Auth;
 @using FirstBlazorApp.Models;
 @using ForumAdminPanel.Models;
+@using System.ComponentModel.DataAnnotations;
 @inject UserAccountService userAccountService;
 @inject IJSRuntime js
 @inject NavigationManager navManager
 @inject EmailService emailService
+@inject UserService userService
+
+
 <h3>Register</h3>
 
-
+<EditForm Model="@model" OnValidSubmit="FormRegisterUser"> 
+     <DataAnnotationsValidator />  
+    <ValidationSummary />  
 <div class="row">
     <div class=" col-4 ofset-lg-4 pt-4 pb-4 border">
         <div>
@@ -17,28 +24,45 @@
         <div class="mb-3">
             <label>User name</label>
             <input @bind="model.UserName" class="form-control" placeholder="User name">
+            <ValidationMessage For="@(() => model.UserName)" /> 
         </div>
         <div class="mb-3">
             <label>Password</label>
             <input @bind="model.Password" type="password" class="form-control" placeholder="Password" />
+            <ValidationMessage For="@(() => model.Password)" /> 
         </div
-               <div class="mb-3">
+         <div class="mb-3">
+            <label>Password Confirm</label>
+            <input @bind="model.PasswordConfirm" type="password" class="form-control" placeholder="Password Confirmation" />
+            <ValidationMessage For="@(() => model.PasswordConfirm)" /> 
+        </div
+             <div class="mb-3">
             <label>Password</label>
             <input @bind="model.Email" type="email" class="form-control" placeholder="Email" />
+            <ValidationMessage For="@(() => model.Email)" /> 
         </div
 
         <div class="mb-3 d-grid gap-2">
-            <button @onclick="FormRegisterUser" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Register</button>
         </div>
     </div>
 </div>
-
+</EditForm>  
 @code {
     private class Model
-    {
+    {    
+        [Required(ErrorMessage = "User name is required")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Enter password")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Compare(nameof(Password),ErrorMessage = "Password mismatch")]
+        public string PasswordConfirm { get; set; }
     }
 
     Model model = new Model();
@@ -46,19 +70,40 @@
     User registeredUser = new User();
 
     private void FormRegisterUser()
-    {
+    {   
+        // PasswordHandler class is userd for hashing password
+
+        // Set salt for password hash from method in UserService
+        var salt = userService.ReturnSalt();
+        PasswordHandler hash = new PasswordHandler();
+        hash.HashPasword(model.Password,out salt);
+        string hashedPassword=Convert.ToString(hash.HashPasword(model.Password, out salt));
+
         registeredUser.UserName = model.UserName;
-        registeredUser.Password = model.Password;
+        registeredUser.Password = hashedPassword;
         registeredUser.Email = model.Email;
 
-        userAccountService.RegisterUser(registeredUser);
 
-        RegisterEmail fromUserCredentials = new RegisterEmail();
+        if(userAccountService.RegisterUser(registeredUser) != null)
+        {   
+            // Probably not needed twice, TODO check!!
+            userAccountService.RegisterUser(registeredUser);
+         
+            RegisterEmail fromUserCredentials = new RegisterEmail();
 
-        fromUserCredentials.body = "Than you for registration, your user name is " + registeredUser.UserName + " and your password is " +registeredUser.Password;
-        fromUserCredentials.subject = "Success registration, thank you " +registeredUser.UserName;
-        fromUserCredentials.to = registeredUser.Email;
-        emailService.SendRegisterMail(fromUserCredentials);      
+            fromUserCredentials.body = "Than you for registration, your user name is " + registeredUser.UserName + " and your password is " +registeredUser.Password;
+            fromUserCredentials.subject = "Success registration, thank you " +registeredUser.UserName;
+            fromUserCredentials.to = registeredUser.Email;
+            emailService.SendRegisterMail(fromUserCredentials);
+
+            js.InvokeVoidAsync("alert","User registered!");
+
+            navManager.NavigateTo("/", true);     
+        }
+        else
+        {
+             js.InvokeVoidAsync("alert","User alredy exist by this credentials!");   
+        }
 
     }
 

@@ -1,11 +1,9 @@
 ﻿using FirstBlazorApp.Auth;
 using FirstBlazorApp.Data;
-using FirstBlazorApp.Pages.Users;
 using ForumAdminPanel.Models;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using FirstBlazorApp.Auth;
+using System.Text;
 
 namespace FirstBlazorApp.Services
 {
@@ -13,13 +11,21 @@ namespace FirstBlazorApp.Services
     {
         private IDbContextFactory<appDbContext> _dbContextFactory;
         private readonly ProtectedSessionStorage _sessionStorage;
+        private readonly IConfiguration _configuration;
+            
 
-        public UserService(IDbContextFactory<appDbContext> dbContextFactory,ProtectedSessionStorage sessionStorage )
+        public UserService(
+                IDbContextFactory<appDbContext> dbContextFactory,
+                ProtectedSessionStorage sessionStorage, 
+                IConfiguration configuration 
+            )
         {
             _dbContextFactory = dbContextFactory;
             _sessionStorage = sessionStorage;
+            _configuration = configuration;
         }
 
+        // Get all users sync
         public List<User> GetAllUsers()
         {
             List<User> usersList = new List<User>();
@@ -91,7 +97,6 @@ namespace FirstBlazorApp.Services
             return user;
         }
 
-
         //Get users profile
         public UserProfile GetUserProfile(int userId)
         {   
@@ -112,9 +117,28 @@ namespace FirstBlazorApp.Services
             }
         }
 
+
+        // Return string converted to byte[] Salt value 
+        public byte[] ReturnSalt()
+        {
+            // Get value of "Salt" from settings file
+            string configurationSaltValue = _configuration.GetValue<string>("Salt");
+            byte[] salt = Encoding.ASCII.GetBytes(configurationSaltValue);
+            return salt;
+        }
+
         // Update user credentials
         public void UpdateUser(User inputUser)
         {
+            // PasswordHandler class is userd for hashing password
+
+            // Get value of "Salt" from settings file
+            string configurationSaltValue = _configuration.GetValue<string>("Salt");
+            byte[] salt = Encoding.ASCII.GetBytes(configurationSaltValue);
+            PasswordHandler hash = new PasswordHandler();
+            hash.HashPasword(inputUser.Password,out salt);
+            string hashedPassword=Convert.ToString(hash.HashPasword(inputUser.Password, out salt));
+
             using (var context = _dbContextFactory.CreateDbContext())
             {
                 // User context
@@ -125,7 +149,7 @@ namespace FirstBlazorApp.Services
                     {
                         User user = context.Users.Where(U => U.Id == inputUser.Id).FirstOrDefault();
                         user.UserName = inputUser.UserName;
-                        user.Password = inputUser.Password;
+                        user.Password = hashedPassword;
                         user.Email = inputUser.Email;
                         user.UserStatus= inputUser.UserStatus;
 
@@ -137,7 +161,7 @@ namespace FirstBlazorApp.Services
             }
         }
 
-        // Update user profile
+        // Update user profile 
         public void UpdateUserProfile(UserProfile inputUserProfile)
         {
             using (var context = _dbContextFactory.CreateDbContext())
@@ -162,6 +186,7 @@ namespace FirstBlazorApp.Services
             }
         }
 
+        // Save both Profile and User ( TODO )
         public void SaveUserProfileAndUser(User inputUser, UserProfile inputUserProfile)
         {
             using(var context=_dbContextFactory.CreateDbContext())
