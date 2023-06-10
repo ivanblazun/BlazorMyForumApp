@@ -1,4 +1,5 @@
 ﻿@using ForumAdminPanel.Models;
+@inject AuthenticationStateProvider authenticationStateProvider;
 @inject NavigationManager navManager
 @inject ThemeService themeService
 @inject IJSRuntime js
@@ -14,9 +15,17 @@
             {
                 <p class="card-text theme-body">@theme.ThemeBody</p>
             }
-            <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
-            <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
-            <button type="button" @onclick="@(()=>{DeleteTheme();})" class="btn btn-outline-danger btn-sm">Delete Theme</button>
+            <AuthorizeView Roles="1,2">
+                 <Authorized>
+                    <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
+                    <button type="button" @onclick="@(()=>{DeleteTheme();})" class="btn btn-outline-danger btn-sm">Delete Theme</button>
+                    <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
+                </Authorized>
+                <NotAuthorized>
+                    <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
+                    <small style="color:red">Login to edit or delete theme</small>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
     </div>
 </div>
@@ -33,6 +42,8 @@
     public int ForumId{ get; set; }
 
     bool addThemeupdateModalOn = false;
+
+    bool userIsAdminOrPowerUser = false;
 
     private void GetToPosts(int id)
     {

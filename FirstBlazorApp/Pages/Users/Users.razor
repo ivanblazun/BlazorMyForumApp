@@ -1,6 +1,7 @@
 ﻿@page "/testusers"
 @using ForumAdminPanel.Models;
 @inject UserService userService
+@attribute [Authorize(Roles = "1,2,3")]
 
 
 

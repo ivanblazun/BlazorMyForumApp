@@ -1,6 +1,6 @@
 ﻿@using ForumAdminPanel.Models;
 @inject NavigationManager navManager
-
+@attribute [Authorize(Roles = "1,2,3")]
 <div class="col-3 m-2">
 <div class="card" style="width: 18rem;">
     <div class="card-body">
@@ -8,18 +8,25 @@
         <p class="card-text">User status: @User.UserStatus</p>
         <p class="card-text">User email: @User.Email</p>
         <p class="card-text">User Registerd date: @User.RegisteredDate</p>
-        <div class="d-flex flex-column gap-1">
-            <div>
-                    <button @onclick="@(()=>{GoToUser(User.Id);})" class="btn btn-info btn-sm">
-                    Change user properties
-                </button>
-            </div>
-            <div>
-                <button @onclick="@(()=>{GoToUserProfile(User.Id);})" class="btn btn-outline-primary btn-sm">
-                    Change user profile properties
-                </button>
-            </div>
-        </div>
+        <AuthorizeView Roles="1">
+            <Authorized>
+                <div class="d-flex flex-column gap-1">
+                    <div>
+                        <button @onclick="@(()=>{GoToUser(User.Id);})" class="btn btn-info btn-sm">
+                            Change user properties
+                        </button>
+                    </div>
+                    <div>
+                        <button @onclick="@(()=>{GoToUserProfile(User.Id);})" class="btn btn-outline-primary btn-sm">
+                            Change user profile properties
+                        </button>
+                    </div>
+                    </div>
+            </Authorized>
+            <NotAuthorized>
+                <small style="color:red">Only admin can edit user profile or credentials</small>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
 </div>
 

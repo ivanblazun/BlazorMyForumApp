@@ -16,10 +16,15 @@
 }
 <AuthorizeView>
     <Authorized>
-        <button class="btn btn-success mb-1" @onclick="OpenModal">Add post</button>    
+        <button class="btn btn-success mb-1" @onclick="OpenModal">Add post</button>
+        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
     </Authorized>
+    <NotAuthorized>
+        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
+        <small style="color:red">Login to add new post</small>
+    </NotAuthorized>
 </AuthorizeView>
-<button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
+
 
 @if(posts != null)
 {

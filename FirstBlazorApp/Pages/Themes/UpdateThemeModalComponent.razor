@@ -42,7 +42,8 @@
                     <InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
                 </div>
             </div>
-            <button @onclick="(()=>{UpdateThemeAction(); CloseModal.InvokeAsync();})">Update theme</button>
+            <button @onclick="(()=>{UpdateThemeAction();})">Update theme</button>
+            @*CloseModal.InvokeAsync();*@
         </div>
     </div>
 </div>
@@ -70,9 +71,10 @@
 
     async Task UpdateThemeAction()
     {
-        await themeService.UpdateThemeAsync(currentTheme, Theme.Id);
-        navManager.NavigateTo(location + ForumId.ToString(), true);
-
+        //if( await themeService.UpdateThemeAsync(currentTheme, Theme.Id) != null)
+        //
+            await SaveImage(await themeService.UpdateThemeAsync(currentTheme, Theme.Id));
+            navManager.NavigateTo(location + ForumId.ToString(), true);
 
     }
 

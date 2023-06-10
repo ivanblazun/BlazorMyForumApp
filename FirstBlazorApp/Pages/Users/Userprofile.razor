@@ -1,6 +1,7 @@
 ﻿@page "/userprofile/{id:int}"
 @using FirstBlazorApp.Auth;
 @using ForumAdminPanel.Models;
+@attribute [Authorize(Roles = "1,2,3")]
 
 @inject UserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider

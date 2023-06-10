@@ -23,8 +23,15 @@
               <button class="btn btn-primary" @onclick="(()=>{AddAnswer(Post.Id);})">Give Answer</button>
             </Authorized>
         </AuthorizeView>
-        <button type="button" class="btn btn-secondary" @onclick="(()=>{navManager.NavigateTo(updatePostLocation+Post.Id,true);})">Edit</button>
-        <button type="button" class="btn btn-warning" @onclick="(()=>{DeletePost.InvokeAsync(Post);})">Delete</button>
+           <AuthorizeView Roles="1,2">
+            <Authorized>
+                <button type="button" class="btn btn-secondary" @onclick="(()=>{navManager.NavigateTo(updatePostLocation+Post.Id,true);})">Edit</button>
+                <button type="button" class="btn btn-warning" @onclick="(()=>{DeletePost.InvokeAsync(Post);})">Delete</button>
+            </Authorized>
+             <NotAuthorized>
+                <p style="color:red">Only admins and power users can edit or delete post</p>
+             </NotAuthorized>
+        </AuthorizeView>
     </div>
     <div>
         @if (answerService.GetAnswersForPost(Post.Id) != null)

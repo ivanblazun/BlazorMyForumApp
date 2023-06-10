@@ -3,6 +3,26 @@
 @using ForumAdminPanel.Models;
 @inject ForumService forumService
 
+<div>
+        @if (userIsAdmin)
+        {
+            <div>
+                <div>
+                    <button class="btn btn-outline-primary">Add new sub-forum</button>
+                </div>
+                <div>
+                   <input />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div>
+                <p style="color:red">Only admins can open new sub forum</p>
+            </div>
+        }
+
+</div>
 <div class="d-flex flex">
 
 <div class="row">
@@ -11,24 +31,9 @@
         <ForumComponent Fora="forum"></ForumComponent>
     }
 </div>
-
-    <div>
-        <div>
-            <button class="btn btn-outline-primary">Add new sub-forum</button>
-        </div>
-        <div>
-           <input 
-        </div>
-    </div>  
 </div>
 
 
 @code {
-
-    //List<>
-
-    //protected override void OnInitialized()
-    //{
-        
-    //}
+    bool userIsAdmin = false;
 }
