@@ -5,7 +5,7 @@
 // Add new component for my profile update user (currently is using same for both change ways)
 // Add "Add myprofile"  if not created for user
 // Set role to change user status only to admins
-// Set role to "Add new theme" button on Themes
+// Set role to "Add new theme" button on Themes (Done)
 
 //Important//
 // Post body..How to implement link

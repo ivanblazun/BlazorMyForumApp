@@ -17,9 +17,16 @@
             <input type="text" @oninput="SearchThemesaction" 
                 placeholder="Search themes" />
         </div>
+        <AuthorizeView Roles="1,2">
+            <Authorized>
         <div>
             <button class="btn btn-outline-primary" @onclick="OpenModal">Add new theme</button>
         </div>
+           </Authorized>
+            <NotAuthorized>
+                <small style="color:red">Only power users and admins can add new theme</small>
+            </NotAuthorized>
+        </AuthorizeView>
     </div>
     <div class="row">
         @foreach (var theme in themes)
