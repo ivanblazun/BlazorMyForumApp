@@ -9,6 +9,9 @@
 @inject UserService userService
 @inject NavigationManager navManager
 
+
+@if (ProfileMatchSessionUser)
+{
 <div class="d-flex" style="width: 18rem;">
     
     @if(imagePath != null)
@@ -46,25 +49,31 @@
         
     }
 
-    <div class="d-flex align-items-sm-start m-1 g-1">
-            <div>
-                <button @onclick="@(()=>{GoToUser(user.Id);})" class="btn btn-info btn-sm">
-                    Change user properties
-                </button>
-            </div>
-            <div>
-                <button @onclick="@(()=>{GoToUserProfile(user.Id);})" class="btn btn-outline-primary btn-sm">
-                    Change user profile properties
-                </button>
-            </div>
-
-    </div>
 </div>
+    @if (userprofile != null)
+    {
+        <div>
+            <UpdateCurrentUserProfileComponent SessionUser="user" id="id"></UpdateCurrentUserProfileComponent>
+        </div>
+    }
+     @if (userprofile == null)
+    {
+        <div>
+           <CreateUserProfileComponent SessionUser="user" id="id"></CreateUserProfileComponent>
+        </div>
+    }
+
     <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-info btn-sm">Change profile image</button>
+  
     @if (imageUploadSelect)
     {
         <FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>
     }
+}
+else
+{
+    <div>Not your profile</div>
+}
 @code {
     [Parameter]
     public int id { get; set; }
@@ -75,13 +84,30 @@
 
     bool imageUploadSelect = false;
 
+    bool ProfileMatchSessionUser;
+
     protected override async Task OnInitializedAsync()
     {   
+        var customAuthstateProvider = (AuthProccedure)authStateProvider;
+        User sessionUser = await customAuthstateProvider.GetCurrentUserAsync();
+
 
         user = userService.GetUser(id);
-        imagePath = await imageService.GetImage(user);
-        userprofile = userService.GetUserProfile(user.Id);
-        //postUser = await postService.GetUserCreatorOfPost(Post.UserId);
+
+        if(sessionUser.Id == user.Id)
+        {
+            ProfileMatchSessionUser = true;
+
+            imagePath = await imageService.GetImage(user);
+            userprofile = userService.GetUserProfile(user.Id);
+            
+        }
+        else
+        {
+            ProfileMatchSessionUser = false;
+        }
+
+
     }
 
     private void GoToUser(int id)
@@ -89,7 +115,7 @@
         string location = "/updateuser/" + id.ToString();
         navManager.NavigateTo(location, true);
     }
-    private void GoToUserProfile(int id)
+    private void GoToMyUserProfile(int id)
     {
         string location = "/updatecurrentuserprofile/" + id.ToString();
         navManager.NavigateTo(location, true);
@@ -99,12 +125,8 @@
         if (imageUploadSelect == false)
         {
             imageUploadSelect = true;
-         
-
         }
         else { imageUploadSelect = false;}
-        //string location = "/imageupload";
-        //navManager.NavigateTo(location, true);
     }
 
 }

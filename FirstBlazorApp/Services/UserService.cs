@@ -25,6 +25,15 @@ namespace FirstBlazorApp.Services
             _configuration = configuration;
         }
 
+        // Return string converted to byte[] Salt value 
+        public byte[] ReturnSalt()
+        {
+            // Get value of "Salt" from settings file
+            string configurationSaltValue = _configuration.GetValue<string>("Salt");
+            byte[] salt = Encoding.ASCII.GetBytes(configurationSaltValue);
+            return salt;
+        }
+
         // Get all users sync
         public List<User> GetAllUsers()
         {
@@ -116,16 +125,6 @@ namespace FirstBlazorApp.Services
             }
         }
 
-
-        // Return string converted to byte[] Salt value 
-        public byte[] ReturnSalt()
-        {
-            // Get value of "Salt" from settings file
-            string configurationSaltValue = _configuration.GetValue<string>("Salt");
-            byte[] salt = Encoding.ASCII.GetBytes(configurationSaltValue);
-            return salt;
-        }
-
         // Update user credentials
         public void UpdateUser(User inputUser)
         {
@@ -183,6 +182,32 @@ namespace FirstBlazorApp.Services
                 }
 
             }
+        }
+
+        // Create user profile
+        public async Task<UserProfile> CreateUserProfileAsync(User currentUser, UserProfile inputUserProfile)
+        {
+            using (var context = _dbContextFactory.CreateDbContext())
+            {
+                if(currentUser != null)
+                {
+                    UserProfile userProfile = new UserProfile()
+                    {
+
+                        FirstName = inputUserProfile.FirstName,
+                        LastName = inputUserProfile.LastName,
+                        Avatar = "",
+                        AboutMyself = inputUserProfile.AboutMyself,
+                        UserId = currentUser.Id
+                                               
+                    };
+                    context.Add(userProfile);
+                    context.SaveChanges();
+
+                }
+            }
+
+            return null;
         }
 
         // Save both Profile and User ( TODO )

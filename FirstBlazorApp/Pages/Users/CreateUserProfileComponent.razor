@@ -1,5 +1,4 @@
-﻿@*@page "/updatecurrentuserprofile/{id:int}"*@
-@using FirstBlazorApp.Auth;
+﻿@using FirstBlazorApp.Auth;
 @using ForumAdminPanel.Models;
 
 
@@ -8,30 +7,26 @@
 @inject NavigationManager navManager
 @inject IJSRuntime js
 @*@attribute [Authorize(Roles = "1,2,3")]*@
-<h3>Update My Profile</h3>
+<h3>Create My Profile</h3>
 
-<div>
-    <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
-        Back to Users
-    </button>
-</div>
+
 
 <EditForm Model="@profile" OnSubmit="@SaveChanges">
     <div class="mb-3">
         <label for="firstName" class="form-label">First name</label>
-        <input type="text" class="form-control" id="firstName" placeholder="@profile.FirstName" @bind="@profile.FirstName">
+        <input type="text" class="form-control" id="firstName" placeholder="Enter your name" @bind="@profile.FirstName">
     </div>
     <div class="mb-3">
         <label for="lastName" class="form-label">Last Name</label>
-        <input type="text" class="form-control" id="lastName" placeholder="@profile.LastName" @bind="@profile.LastName">
+        <input type="text" class="form-control" id="lastName" placeholder="enter your last name" @bind="@profile.LastName">
     </div>
-    <div class="mb-3">
+   @* <div class="mb-3">
         <label for="avatar" class="form-label">Avatar</label>
         <input type="text" class="form-control" id="avatar" placeholder="@profile.Avatar" @bind="@profile.Avatar">
-    </div>
+    </div>*@
     <div class="mb-3">
         <label for="AboutMyself" class="form-label">About myself</label>
-        <input type="text" class="form-control" id="AboutMyself"  @bind="@profile.AboutMyself">
+        <input type="text" class="form-control" id="AboutMyself" @bind="@profile.AboutMyself">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
@@ -41,29 +36,32 @@
     public int id { get; set; }
     [Parameter]
     public User SessionUser { get; set; }
-    
-    private UserProfile profile { get; set; }
+
+    UserProfile profile = new UserProfile();
 
     bool profileBelongsToUser = false;
 
     protected override async Task OnInitializedAsync()
     {
-        profile = userService.GetUserProfile(id);
+        //profile = userService.GetUserProfile(id);
     }
 
     public async Task<bool> CheckUserCurrentUser()
-    {   
+    {
         var customAuthstateProvider = (AuthProccedure)authenticationStateProvider;
         User currentUser = await customAuthstateProvider.GetCurrentUserAsync();
         bool doesProfileBelongtoCurrentUser = currentUser.Id.Equals(id);
         return doesProfileBelongtoCurrentUser;
-    } 
+    }
 
-    private void SaveChanges()
+    private async Task SaveChanges()
     {
-        userService.UpdateUserProfile(profile);
-        js.InvokeVoidAsync("alert", "User shanges saved");
-        navManager.NavigateTo("/testusers", true);
+        await userService.CreateUserProfileAsync(SessionUser,profile);
+        js.InvokeVoidAsync("alert", "User profile created");
+
+        string location = "userprofile/" + SessionUser.Id.ToString();
+
+        navManager.NavigateTo(location, true);
 
     }
 
