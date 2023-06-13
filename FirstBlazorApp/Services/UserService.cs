@@ -91,7 +91,6 @@ namespace FirstBlazorApp.Services
         public async Task<User> GetCurrentUserFromSession()
         {
             AuthProccedure authProccedure = new AuthProccedure();
-
             User user = new User();
             user = await authProccedure.GetCurrentUserAsync();
             return user;

@@ -1,10 +1,11 @@
 ﻿@page "/updatecurrentuserprofile/{id:int}"
 @using ForumAdminPanel.Models;
+@using FirstBlazorApp.Auth;
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
-@attribute [Authorize(Roles = "1,2,3")]
-<h3>UpdateUserProfileComponent</h3>
+@*@attribute [Authorize(Roles = "1,2,3")]*@
+<h3>Update My Profile</h3>
 
 <div>
     <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
@@ -38,6 +39,23 @@
 
     private UserProfile profile { get; set; }
 
+    bool profileBelongsToUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        profileBelongsToUser = await CheckUserCurrentUser();
+
+        profile = userService.GetUserProfile(id);
+    }
+
+    private async Task<bool> CheckUserCurrentUser()
+    {   
+        AuthProccedure authProccedure = new AuthProccedure();
+        User currentUser = await authProccedure.GetCurrentUserAsync();
+        bool doesProfileBelongtoCurrentUser = currentUser.Id.Equals(id);
+        return doesProfileBelongtoCurrentUser;
+    } 
+
     private void SaveChanges()
     {
         userService.UpdateUserProfile(profile);
@@ -46,8 +64,4 @@
 
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        profile = userService.GetUserProfile(id);
-    }
 }
