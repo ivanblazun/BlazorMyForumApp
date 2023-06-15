@@ -1,21 +1,12 @@
-﻿@*@page "/updatecurrentuserprofile/{id:int}"*@
-@using FirstBlazorApp.Auth;
+﻿@using FirstBlazorApp.Auth;
 @using ForumAdminPanel.Models;
 @using System.ComponentModel.DataAnnotations;
-
-
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
-@*@attribute [Authorize(Roles = "1,2,3")]*@
-<h3>Update My Profile</h3>
 
-<div>
-    <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
-        Back to Users
-    </button>
-</div>
+<h3>Update My Profile</h3>
 
 <EditForm Model="@profile" OnSubmit="@SaveChanges">
     <div class="mb-3">
@@ -42,7 +33,7 @@
     public int id { get; set; }
     [Parameter]
     public User SessionUser { get; set; }
-    
+
     private UserProfile profile { get; set; }
 
     bool profileBelongsToUser = false;
@@ -64,7 +55,8 @@
     {
         userService.UpdateUserProfile(profile);
         js.InvokeVoidAsync("alert", "User shanges saved");
-        navManager.NavigateTo("/testusers", true);
+        string location = "/userprofile/" + SessionUser.Id.ToString();
+        navManager.NavigateTo(location, true);
 
     }
 

@@ -18,12 +18,10 @@
     {
         <img src="@imagePath" class="card-img-top" alt="...">
     }
+   
       <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-info btn-sm">Change profile image</button>
   
-    @if (imageUploadSelect)
-    {
-        <FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>
-    }
+   
 
     <div class="card-body">
         <h5 class="card-title">@user.UserName</h5>
@@ -55,6 +53,7 @@
         
     }
 
+
 </div>
     <div>
         <UpdateCurrentUserComponent CurrentUser="user" id="id"></UpdateCurrentUserComponent>
@@ -72,8 +71,12 @@
         </div>
     }
 
-  
+  @if (imageUploadSelect)
+    {
+        <FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>
+    }
 }
+
 else
 {
     <div>Not your profile</div>
@@ -96,24 +99,18 @@ else
     {   
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         User sessionUser = await customAuthstateProvider.GetCurrentUserAsync();
-
-
         user = userService.GetUser(id);
 
         if(sessionUser.Id == user.Id)
         {
             ProfileMatchSessionUser = true;
-
             imagePath = await imageService.GetImage(user);
-            userprofile = userService.GetUserProfile(user.Id);
-      
+            userprofile = userService.GetUserProfile(user.Id);     
         }
         else
         {
             ProfileMatchSessionUser = false;
         }
-
-
     }
 
     private void GoToUser(int id)

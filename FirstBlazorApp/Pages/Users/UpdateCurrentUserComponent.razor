@@ -1,15 +1,8 @@
-﻿@*@page "/updateuser/{id:int}"*@
-@using ForumAdminPanel.Models;
+﻿@using ForumAdminPanel.Models;
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
 <h3>Update Current User Component</h3>
-
-<div>
-    <button @onclick="@(()=>{navManager.NavigateTo("/testusers",true);})" class="btn btn-info btn-sm">
-       Back to Users
-    </button>
-</div>
 
 <EditForm Model="@CurrentUser" OnSubmit="@SaveChanges">
     <div class="mb-3">
@@ -24,10 +17,6 @@
         <label for="userpassword" class="form-label">Password</label>
         <input type="text" class="form-control" id="userpassword" placeholder="CurrentUser.Password" @bind="CurrentUser.Password">
     </div>
-    <div class="mb-3">
-        <label for="userstatus" class="form-label">User status</label>
-        <input type="number" min="1" max="3" class="form-control" id="userstatus" placeholder="CurrentUser.Password" @bind="CurrentUser.UserStatus">
-    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
@@ -41,10 +30,10 @@
 
     private void SaveChanges()
     {
-        userService.UpdateUser(user);
+        userService.UpdateUser(CurrentUser);
         js.InvokeVoidAsync("alert","User shanges saved");
-        navManager.NavigateTo("/testusers", true);
-
+        string location = "/userprofile/" + CurrentUser.Id.ToString();
+        navManager.NavigateTo(location, true);
     }
 
     protected override async Task OnInitializedAsync()

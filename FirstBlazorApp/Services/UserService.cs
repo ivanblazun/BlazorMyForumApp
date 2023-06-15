@@ -170,7 +170,7 @@ namespace FirstBlazorApp.Services
                     bool doesUserexist = context.Users.Any(UP => UP.Id == inputUserProfile.UserId);
                     if (doesUserexist)
                     {
-                        UserProfile userProfile = context.UserProfiles.Where(U => U.Id == inputUserProfile.UserId).FirstOrDefault();
+                        UserProfile userProfile = context.UserProfiles.Where(UP => UP.Id == inputUserProfile.Id).FirstOrDefault();
                         userProfile.FirstName=  inputUserProfile.FirstName;
                         userProfile.LastName= inputUserProfile.LastName;
                         userProfile.Avatar= inputUserProfile.Avatar;
