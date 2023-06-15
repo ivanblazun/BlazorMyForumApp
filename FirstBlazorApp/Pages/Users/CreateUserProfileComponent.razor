@@ -33,21 +33,21 @@
 </EditForm>
 
 @code {
-    private class Model
-    {
-        [Required(ErrorMessage = "User name is required")]
-        public string UserName { get; set; }
+    //private class Model
+    //{
+    //    [Required(ErrorMessage = "User name is required")]
+    //    public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
-        public string Email { get; set; }
+    //    [Required(ErrorMessage = "Email is required")]
+    //    public string Email { get; set; }
 
-        [Required(ErrorMessage = "Enter password")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+    //    [Required(ErrorMessage = "Enter password")]
+    //    [DataType(DataType.Password)]
+    //    public string Password { get; set; }
 
-        [Compare(nameof(Password), ErrorMessage = "Password mismatch")]
-        public string PasswordConfirm { get; set; }
-    }
+    //    [Compare(nameof(Password), ErrorMessage = "Password mismatch")]
+    //    public string PasswordConfirm { get; set; }
+    //}
 
     [Parameter]
     public int id { get; set; }
