@@ -8,9 +8,10 @@
 // Add "Add myprofile"  if not created for user
 	(Done)
 // Set role to change user status only to admins 
-	(Done; only admin can accerss change user profile from all users component)
+	(Done)
 // Set role to "Add new theme" button on Themes 
 	(Done)
+// Add new forum (all fetures!)
 
 // Middle tasks //
 // Add close and open btn for change profile or user properties
