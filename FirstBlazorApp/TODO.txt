@@ -12,10 +12,16 @@
 // Set role to "Add new theme" button on Themes 
 	(Done)
 // Add new forum (all fetures!)
+// Add check "doesEmailExist" for email on change user properties (both from personal and admin component)
+// User profile need fuul design!
 
 // Middle tasks //
 // Add close and open btn for change profile or user properties
 // Hash returned password in change current user properties
+// Refresh site after new post added
+// Return to themes from specific theme (exeption after "Return to themes" click)
+// Add refresh and redirect after image upload
+// Add user image to answer on post (smaller than post user image)
 
 //Important//
 // Post body..How to implement link
