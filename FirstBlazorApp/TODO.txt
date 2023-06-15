@@ -14,6 +14,7 @@
 // Add new forum (all fetures!)
 // Add check "doesEmailExist" for email on change user properties (both from personal and admin component)
 // User profile need fuul design!
+// Remove view password in admin change user properties
 
 // Middle tasks //
 // Add close and open btn for change profile or user properties
