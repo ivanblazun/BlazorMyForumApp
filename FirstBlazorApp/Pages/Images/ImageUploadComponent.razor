@@ -8,26 +8,34 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject ImageService imageService
 @inject UserService userService
-<h3>ImageUploadComponent</h3>
+@inject NavigationManager navManager
 
+<div class="d-flex flex-column">
+    <h3>ImageUploadComponent</h3>
+    
+    <div class="card" style="width: 18rem;">
+      <img id="pic" width="150" height="150"/>
+        <div class="card-body">
+            <label for="img">Select image:</label>
+            <InputFile class="custom-file-input"
+                       oninput="pic.src=window.URL.createObjectURL(this.files[0])"
+                       OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
+            <button onclick="@(()=>{SaveImage();})" type="button" class="w-50">Upload</button>
+        </div>
+    </div>
 
-    <label for="img">Select image:</label>
-<InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
-<button onclick="@(()=>{SaveImage();})" type="button">Upload</button>
+</div>
 
 
 @code {
 
     public InputFileChangeEventArgs InputImage;
 
-
-
     private string imageSrc;
     protected override async Task OnInitializedAsync()
     {   
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         User user = await customAuthstateProvider.GetCurrentUserAsync();
-
         imageSrc = await imageService.GetImage(user);         
     }
 
@@ -37,13 +45,12 @@
         this.StateHasChanged();
     }
 
-
     public async Task SaveImage()
     {
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         User user = await customAuthstateProvider.GetCurrentUserAsync();
-
         imageService.SaveImagetoDatabase(InputImage,user);
-
+        string location = "/userprofile/" + user.Id.ToString();
+        navManager.NavigateTo(location, true);
     }
 }

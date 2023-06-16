@@ -18,10 +18,6 @@
     {
         <img src="@imagePath" class="card-img-top" alt="...">
     }
-   
-      <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-info btn-sm">Change profile image</button>
-  
-   
 
     <div class="card-body">
         <h5 class="card-title">@user.UserName</h5>
@@ -44,37 +40,38 @@
              <p class="card-text">My UserID: @userprofile.UserId</p>
         }
     </div>
-        @if (userprofile != null)
+    @if (userprofile != null)
     {
         <div class="card-body">
             <h5 class="card-title">About myself:</h5>
             <p class="card-text">@userprofile.AboutMyself</p
         </div>
-        
     }
+</div>  
 
+    <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-dark mb-2 mt-2">Change profile image</button>
+    <button class="btn btn-info mb-2 mt-2" onclick="@(()=>ShowUserProperties())">Update user properties</button>
+    <button class="btn btn-success mb-2 mt-2" onclick="@(()=>ShowUpdateProfile())">Update user profile</button>
 
-</div>
-    <div>
+    <div style=@(!ShowChangeProperties ? "display:none" : "display:block")>
         <UpdateCurrentUserComponent CurrentUser="user" id="id"></UpdateCurrentUserComponent>
     </div>
-    @if (userprofile != null)
-    {
-        <div>
+
+    @if(userprofile != null)
+    {   
+        <div style=@(!ShowChangeProfile ? "display:none" : "display:block")>
             <UpdateCurrentUserProfileComponent SessionUser="user" id="id"></UpdateCurrentUserProfileComponent>
         </div>
     }
-     @if (userprofile == null)
-    {
+
+    @if (userprofile == null)
+    {   <button class="btn btn-outline-light mb-2 mt-2">Create user profile</button>
         <div>
            <CreateUserProfileComponent SessionUser="user" id="id"></CreateUserProfileComponent>
         </div>
     }
 
-  @if (imageUploadSelect)
-    {
-        <FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>
-    }
+    @if (imageUploadSelect){<FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>}
 }
 
 else
@@ -88,13 +85,13 @@ else
     ForumAdminPanel.Models.UserProfile userprofile = new();
 
     string imagePath = "";
-
     bool imageUploadSelect = false;
-
     bool ProfileMatchSessionUser;
+    bool ShowChangeProperties = false;
+    bool ShowChangeProfile = false;
 
-    bool changeCurrenUser;
-  
+    //bool changeCurrenUser;
+
     protected override async Task OnInitializedAsync()
     {   
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
@@ -112,23 +109,24 @@ else
             ProfileMatchSessionUser = false;
         }
     }
+    // Toggle user properties
+    private void ShowUserProperties()
+    {
+        if (!ShowChangeProperties){ShowChangeProperties=true;}
+        else{ShowChangeProperties=false;}
+    }
 
-    private void GoToUser(int id)
+    // Toggle change user profile
+    private void ShowUpdateProfile()
     {
-        string location = "/updateuser/" + id.ToString();
-        navManager.NavigateTo(location, true);
+        if(!ShowChangeProfile){ ShowChangeProfile = true; }
+        else{ ShowChangeProfile = false; }
     }
-    private void GoToMyUserProfile(int id)
-    {
-        string location = "/updatecurrentuserprofile/" + id.ToString();
-        navManager.NavigateTo(location, true);
-    }
+
+
     private void ChangeProfileImage()
     {
-        if (imageUploadSelect == false)
-        {
-            imageUploadSelect = true;
-        }
+        if (imageUploadSelect == false){imageUploadSelect = true;}
         else { imageUploadSelect = false;}
     }
 

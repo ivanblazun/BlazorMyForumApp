@@ -18,11 +18,15 @@
 
 // Middle tasks //
 // Add close and open btn for change profile or user properties
+	(Done)
 // Hash returned password in change current user properties
 // Refresh site after new post added
+	(Done)
 // Return to themes from specific theme (exeption after "Return to themes" click)
 // Add refresh and redirect after image upload
+	(Done)
 // Add user image to answer on post (smaller than post user image)
+	(Done)
 
 //Important//
 // Post body..How to implement link

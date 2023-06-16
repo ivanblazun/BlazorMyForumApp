@@ -1,10 +1,15 @@
 ﻿@using ForumAdminPanel.Models;
 @inject NavigationManager navManager
+@inject ImageService imageService
 @attribute [Authorize(Roles = "1,2,3")]
 <div class="col-3 m-2">
 <div class="card" style="width: 18rem;">
     <div class="card-body">
-        <h5 class="card-title">@User.UserName</h5>
+        @if(imageSrc != null)
+            {
+                <img src="@imageSrc" class="m-1" width="30px" height="30px" style="border-radius:50%" />
+            }
+            <h5 class="card-title">@User.UserName</h5>
         <p class="card-text">User status: @User.UserStatus</p>
         <p class="card-text">User email: @User.Email</p>
         <p class="card-text">User Registerd date: @User.RegisteredDate</p>
@@ -37,6 +42,9 @@
     [Parameter]
     public  User User { get; set; }
 
+    private string imageSrc;
+
+    object image;
 
     private void GoToUser(int id)
     {
@@ -48,4 +56,14 @@
         string location = "/updateuserprofile/" + id.ToString();
         navManager.NavigateTo(location, true);
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        if (await imageService.GetImage(User) != null)
+        {
+            imageSrc = await imageService.GetImage(User);
+        }
+    }
+
 }

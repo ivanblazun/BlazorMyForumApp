@@ -15,8 +15,10 @@
         <p>@Post.TimePostCreated</p>
     </div>
     <div class="card-body">
-        <h5 class="card-title">@postUser.UserName</h5>
-        <PostImageDisplayComponent CurrentPost="Post"></PostImageDisplayComponent>
+        <div class="d-flex">
+            <PostImageDisplayComponent CurrentPost="Post"></PostImageDisplayComponent>
+            <h5 class="card-title m-2">@postUser.UserName</h5>
+        </div>
         <p class="card-text">@Post.Body</p>
          <AuthorizeView>
              <Authorized>
@@ -39,7 +41,7 @@
             <ul class="flex-column">
                 @foreach (var answer in answerService.GetAnswersForPost(Post.Id))
                 {
-                    <li class="list-group-item">
+                    <li class="list-group-item border-0">
                         <AnswerComponent Answer="answer"></AnswerComponent>          
                     </li>
                 }

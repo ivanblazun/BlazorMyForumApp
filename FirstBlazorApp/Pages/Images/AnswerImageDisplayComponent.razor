@@ -1,0 +1,32 @@
+﻿
+@using FirstBlazorApp.Auth;
+@using FirstBlazorApp.Models
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using ForumAdminPanel.Models;
+
+@inject AuthenticationStateProvider authStateProvider
+@inject ImageService imageService
+@inject UserService userService
+@inject PostService postService
+
+<img src="@imageSrc" class="PostUserImage"/>
+@code {
+
+    [Parameter]
+    public Answer CurrentAnswer { get; set; }
+
+    User postUser = new();
+      
+    private string imageSrc;
+    protected override async Task OnInitializedAsync()
+    {   
+        answerUser = await postService.GetUserCreatorOfPost(CurrentAnswer.UserId);
+       
+        if (await imageService.GetImage(postUser) != null)
+        {
+            imageSrc = await imageService.GetImage(postUser);
+        }
+    }
+
+}

@@ -3,6 +3,7 @@
 @inject UserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
 @inject PostService postService
+@inject NavigationManager navManager
 ﻿<div class="modal fade show" id="myModal"
       style="display:block; background-color: rgba(10,10,10,.8);"
       aria-modal="true" role="dialog">
@@ -40,7 +41,9 @@
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         User user = await customAuthstateProvider.GetCurrentUserAsync();
 
-        //todo ADD USER ID
+
         await postService.CreateNewPost(newPost, user.Id, ThemeId);
+        string location = "/posts/" + ThemeId.ToString();
+        navManager.NavigateTo(location, true);
     }
 }
