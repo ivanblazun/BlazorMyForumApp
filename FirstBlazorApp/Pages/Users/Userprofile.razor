@@ -37,7 +37,7 @@
             <p class="card-text">My email: @user.Email</p>
             <p class="card-text">First name: @userprofile.FirstName</p>
             <p class="card-text">Last name: @userprofile.LastName</p>
-             <p class="card-text">My UserID: @userprofile.UserId</p>
+            <p class="card-text">My UserID: @userprofile.UserId</p>
         }
     </div>
     @if (userprofile != null)
@@ -49,29 +49,32 @@
     }
 </div>  
 
+<div>
     <button @onclick="(()=>{ChangeProfileImage();})" class="btn btn-dark mb-2 mt-2">Change profile image</button>
     <button class="btn btn-info mb-2 mt-2" onclick="@(()=>ShowUserProperties())">Update user properties</button>
     <button class="btn btn-success mb-2 mt-2" onclick="@(()=>ShowUpdateProfile())">Update user profile</button>
 
-    <div style=@(!ShowChangeProperties ? "display:none" : "display:block")>
-        <UpdateCurrentUserComponent CurrentUser="user" id="id"></UpdateCurrentUserComponent>
+    <div class="d-flex" style="gap:1rem">
+        <div style=@(!ShowChangeProperties ? "display:none" : "display:block")>
+            <UpdateCurrentUserComponent CurrentUser="user" id="id"></UpdateCurrentUserComponent>
+        </div>
+        @if(userprofile != null)
+        {   
+            <div style=@(!ShowChangeProfile ? "display:none" : "display:block")>
+                <UpdateCurrentUserProfileComponent SessionUser="user" id="id"></UpdateCurrentUserProfileComponent>
+            </div>
+        }
+        @if (userprofile == null)
+        {   <button class="btn btn-outline-light mb-2 mt-2">Create user profile</button>
+            <div>
+               <CreateUserProfileComponent SessionUser="user" id="id"></CreateUserProfileComponent>
+            </div>
+        }
+
+        @if (imageUploadSelect){<FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>}
     </div>
+</div>
 
-    @if(userprofile != null)
-    {   
-        <div style=@(!ShowChangeProfile ? "display:none" : "display:block")>
-            <UpdateCurrentUserProfileComponent SessionUser="user" id="id"></UpdateCurrentUserProfileComponent>
-        </div>
-    }
-
-    @if (userprofile == null)
-    {   <button class="btn btn-outline-light mb-2 mt-2">Create user profile</button>
-        <div>
-           <CreateUserProfileComponent SessionUser="user" id="id"></CreateUserProfileComponent>
-        </div>
-    }
-
-    @if (imageUploadSelect){<FirstBlazorApp.Pages.Images.ImageUploadComponent></FirstBlazorApp.Pages.Images.ImageUploadComponent>}
 }
 
 else

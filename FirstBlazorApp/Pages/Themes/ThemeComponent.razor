@@ -5,21 +5,25 @@
 @inject IJSRuntime js
 @inject ImageService imageService
 
-<div class="col-3 m-1 mt-1 shadow">
-    <div class="card">
+<div class="g-col-3 m-1 mt-1 shadow">
+    <div class="">
         <div class="card-body">
-            <h5 class="card-title">@theme.Title</h5>
-            <FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent CurrentTheme="theme"></FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent>
-            <h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>
+            <div class="d-flex gap-2" style="align-items:center;">
+                <h5 class="card-title">@theme.Title</h5>
+                <FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent CurrentTheme="theme"></FirstBlazorApp.Pages.Images.ThemeImageDisplayComponent>
+            </div>
+            @*<h6 class="card-subtitle mb-2 text-body-secondary">@theme.Id</h6>*@
             @if (theme.ThemeBody != null)
             {
                 <p class="card-text theme-body">@theme.ThemeBody</p>
             }
             <AuthorizeView Roles="1">
                  <Authorized>
-                    <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
-                    <button type="button" @onclick="@(()=>{DeleteTheme();})" class="btn btn-outline-danger btn-sm">Delete Theme</button>
-                    <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
+                     <div class="d-flex gap-1">
+                        <button type="button" @onclick="@(()=>OpenModal())" class="btn btn-outline-info btn-sm">Edit Theme</button>
+                        <button type="button" @onclick="@(()=>{DeleteTheme();})" class="btn btn-outline-danger btn-sm">Delete Theme</button>
+                        <button type="button" @onclick="@(()=>GetToPosts(theme.Id))" class="btn btn-outline-success btn-sm">Read Theme</button>
+                     </div>
                 </Authorized>
                 <NotAuthorized>
                     <div class="d-flex flex-column">

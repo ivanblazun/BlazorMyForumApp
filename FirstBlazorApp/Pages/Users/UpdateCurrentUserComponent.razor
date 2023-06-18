@@ -3,23 +3,26 @@
 @inject UserService userService
 @inject NavigationManager navManager
 @inject IJSRuntime js
-<h3>Update Current User Component</h3>
+<h5 style="border:1px grey solid; border-radius:5px" class="p-2">Update User Properties</h5>
 
-<EditForm Model="@CurrentUser" OnSubmit="@SaveChanges">
-    <div class="mb-3">
-        <label for="username" class="form-label">UserName</label>
-        <input type="text" class="form-control" id="username" placeholder="CurrentUser.UserName" @bind="@CurrentUser.UserName">
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="@user.Email" @bind="CurrentUser.Email">
-    </div>
-    <div class="mb-3">
-        <label for="userpassword" class="form-label">Password</label>
-        <input type="text" class="form-control" id="userpassword" placeholder="Type new password..." @bind="CurrentUser.Password">
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</EditForm>
+<div style="max-width:fit-content">
+    <EditForm Model="@CurrentUser" OnSubmit="@SaveChanges">
+        <div class="mb-3">
+            <label for="username" class="form-label">UserName</label>
+            <input type="text" class="form-control" id="username" placeholder="CurrentUser.UserName" @bind="@CurrentUser.UserName">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="@user.Email" @bind="CurrentUser.Email">
+        </div>
+        <div class="mb-3">
+            <label for="userpassword" class="form-label">Password</label>
+            <input type="text" class="form-control" id="userpassword" placeholder="Type new password..." @bind="CurrentUser.Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+
+</div>
 
 @code {
     [Parameter]

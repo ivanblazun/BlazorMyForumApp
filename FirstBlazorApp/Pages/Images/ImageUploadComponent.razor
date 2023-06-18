@@ -9,23 +9,24 @@
 @inject ImageService imageService
 @inject UserService userService
 @inject NavigationManager navManager
+<div class="">
+    <h5 style="border:1px grey solid; border-radius:5px">Image Upload Component</h5>   
+    <div class="d-flex" style="width: 18rem;">
+        <div>
+           <img class="m-2" id="pic" width="150" height="150"/>
+        </div>
 
-<div class="d-flex flex-column">
-    <h3>ImageUploadComponent</h3>
-    
-    <div class="card" style="width: 18rem;">
-      <img id="pic" width="150" height="150"/>
-        <div class="card-body">
+        <div class="">
             <label for="img">Select image:</label>
-            <InputFile class="custom-file-input"
+            <InputFile class="custom-file-input btn btn-dark m-2"
                        oninput="pic.src=window.URL.createObjectURL(this.files[0])"
                        OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
-            <button onclick="@(()=>{SaveImage();})" type="button" class="w-50">Upload</button>
+            <button onclick="@(()=>{SaveImage();})" type="button" class="w-50 btn btn-info m-2">Upload</button>
         </div>
     </div>
 
-</div>
 
+</div>
 
 @code {
 

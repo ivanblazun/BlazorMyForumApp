@@ -7,9 +7,9 @@
 @inject IJSRuntime js
 
 <div class="border-light">
-    <h3>Update My Profile</h3>
+    <h5 style="border:1px grey solid; border-radius:5px" class="p-2">Update My Profile</h5>
 
-    <EditForm Model="@profile" OnSubmit="@SaveChanges">
+    <EditForm Model="@profile" OnSubmit="@SaveChanges" style="max-width: fit-content;">
         <div class="mb-3">
             <label for="firstName" class="form-label">First name</label>
             <input type="text" class="form-control" id="firstName" placeholder="@profile.FirstName" @bind="@profile.FirstName">
