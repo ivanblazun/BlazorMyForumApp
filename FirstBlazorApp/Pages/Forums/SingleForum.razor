@@ -68,7 +68,7 @@
         SearchInput = (string)args.Value;
         SearchInput = SearchInput.ToLowerInvariant();
 
-        themes = themeService.SearchThemes(SearchInput, SearchInput);
+        themes = themeService.SearchThemes(SearchInput, SearchInput,id);
         StateHasChanged();
     }
 

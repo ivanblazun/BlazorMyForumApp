@@ -13,12 +13,15 @@ namespace ForumAdminPanel.Models
 
         public string? Description { get; set; }
 
+        public DateTime? TimeForumCreated { get; set; }
+
         //[ForeignKey("MainForum")]
         public int MainForumId { get; set; }
         //public MainForum MainForums { get; set; }
+        public int? UserId { get; set; }
 
         // Navigation props
 
-        public List<Theme> Themes { get; set; }
+        public List<Theme>? Themes { get; set; }
     }
 }

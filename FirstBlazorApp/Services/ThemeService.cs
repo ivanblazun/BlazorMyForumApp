@@ -41,12 +41,13 @@ namespace FirstBlazorApp.Services
         }
 
         // Search for theme
-        public List<Theme> SearchThemes(string? themeTitle, string? themeBody)
+        public List<Theme> SearchThemes(string? themeTitle, string? themeBody,int forumId)
         {
             using (var context = _dbContextFactory.CreateDbContext())
             {
                 List<Theme> themes = context.Themes
-                    .Where(T => T.Title.Contains(themeTitle) || T.ThemeBody.Contains(themeBody)).ToList();
+                    .Where(T => T.Title.Contains(themeTitle) || T.ThemeBody.Contains(themeBody)).ToList()
+                    .Where(T=>T.ForumId == forumId).ToList();
                 return themes;
             }
         }

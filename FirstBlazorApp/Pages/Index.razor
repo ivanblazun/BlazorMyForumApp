@@ -1,26 +1,93 @@
 ﻿@page "/"
+@using FirstBlazorApp.Auth;
+@using ForumAdminPanel.Models;
+@using static FirstBlazorApp.Services.SqlService;
+@inject UserService userService
+@inject ThemeService themeService
+@inject SqlService sqlService
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
 @inject IJSRuntime js;
 <PageTitle>Index</PageTitle>
 
 <AuthorizeView>
     <Authorized>
         <h1>Hello, @context.User.Identity.Name</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <h6 class="btn btn-outline-secondary">Your forums @(content.Foras != null ? $"({content.Foras.Count})" : null)</h6>
+                    @if(content.Foras != null)
+                    {   
+                        <ul class="list-group">
+                            @foreach(var f in content.Foras)
+                            {
+                                string path = "/singleforum/" + f.Id.ToString();
+                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@f.Name</li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div class="col-4">
+                    <h6 class="btn btn-outline-secondary">Your Themes @(content.Foras != null ? $"({content.Themes.Count})" : null)</h6>
+                    @if(content.Themes != null)
+                    {
+                        <ul class="list-group">
+                            @foreach(var t in content.Themes)
+                            {
+                                string path = "/posts/" + t.Id.ToString();
+                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@t.Title</li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div class="col-4">
+                    <h6 class="btn btn-outline-secondary">Your Posts @(content.Foras != null ? $"({content.Posts.Count})" : null)</h6>
+                    @if(content.Posts != null)
+                    {  
+                        <ul class="list-group">
+                            @foreach(var p in content.Posts)
+                            { string path = "/posts/" + Convert.ToString(p.ThemeId);
+                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item list-group-item-action btn btn-outline-info m-1">@p.Title</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
     </Authorized>
     <NotAuthorized>
         <h1>Hello, guest!</h1>
     </NotAuthorized>
 </AuthorizeView>
-<AuthorizeView>
-    <Authorized>
-        <br /> <br />
-        <button class="btn btn-outline-primary" @onclick="DisplayGreetingAlert">Display greeting alert</button>
-    </Authorized>
-</AuthorizeView>
-
 
 @code{
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
+
+
+    UserRelatedContent content = new UserRelatedContent();
+
+    User user = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationState;
+        if (authState.User.Identity.Name != null)
+        {
+            var customAuthstateProvider = (AuthProccedure)authStateProvider;
+            user = await customAuthstateProvider.GetCurrentUserAsync();
+
+            content = await sqlService.GetUserCreatedContentAsync(user) ?? null;
+
+        }
+
+    }
+
+    private void NavigateTo(string path)
+    {
+        navManager.NavigateTo(path, true);
+    }
 
     private async Task DisplayGreetingAlert()
     {
