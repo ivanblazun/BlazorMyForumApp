@@ -6,7 +6,7 @@
 @inject ThemeService themeService
 
 <div class="d-flex m-1 gap-1">
-    <span class="border border-primary-subtle m-1 p-1 rounded-pill fs-4">Theme: @currentTheme.Title</span>
+    <span class="border border-primary-subtle m-1 p-1  fs-4">@currentTheme.Title</span>
     <br>
     <span class="border border-secondary-subtle m-1 p-1 rounded-pill fs-4">Theme opened: @currentTheme.TimeThemeCreated</span>
 </div>
@@ -17,10 +17,10 @@
 <AuthorizeView>
     <Authorized>
         <button class="btn btn-success mb-1" @onclick="OpenModal">Add post</button>
-        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
+        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + currentTheme.ForumId.ToString(),true))">Return to themes</button>
     </Authorized>
     <NotAuthorized>
-        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + id.ToString(),true))">Return to themes</button>
+        <button class="btn btn-info mb-1" @onclick="(()=>navManager.NavigateTo(locationForum + currentTheme.ForumId.ToString(),true))">Return to themes</button>
         <small style="color:red">Login to add new post</small>
     </NotAuthorized>
 </AuthorizeView>
@@ -35,7 +35,7 @@
 }
 else
 {
-    <p>No posts for theme!</p>
+    <p>No posts createdin this theme!</p>
 }
 
 @code {

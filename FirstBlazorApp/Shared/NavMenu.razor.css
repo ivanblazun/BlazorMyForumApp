@@ -59,7 +59,7 @@ align-items: center;
 
 @media (min-width: 641px) {
     .navbar-toggler {
-        display: none;
+        display: block;
     }
 
     .collapse {

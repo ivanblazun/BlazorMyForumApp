@@ -1,14 +1,16 @@
 ﻿@using ForumAdminPanel.Models;
 @inject AnswerService answerService
 @inject UserService userService
+@inject ImageService imageService
 
-<div class="card">
-    <div class="card-header">
+<div class="card bg-info" style="--bs-bg-opacity: .25;">
+    <div class="card-header d-flex p-0">
+        <img src="@imageSrc" class="m-1" width="30px" height="30px" style="border-radius:50%"/>
         <p>@user.UserName</p>
     </div>
     <div class="card-body">
         <p class="card-text">@Answer.Body</p>
-        <p class="rounded-pill">@Answer.TimeAnswerCreated</p>
+        <p class="rounded-pill fs-6">@Answer.TimeAnswerCreated</p>
     </div>
 </div>
 
@@ -17,10 +19,17 @@
     public Answer Answer { get; set; }
 
     User user = new User();
+    private string imageSrc;
+    object image;
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-      user = userService.GetUser(Answer.UserId);
+        user = userService.GetUser(Answer.UserId);
+
+        if (await imageService.GetImage(user) != null)
+        {
+            imageSrc = await imageService.GetImage(user);
+        }
     }
 
 }
