@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "FirstBlazorApp20230530213139",
+      "defaultValue": "myForum",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }
