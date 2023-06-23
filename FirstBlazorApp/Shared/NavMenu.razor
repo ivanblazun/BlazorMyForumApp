@@ -52,12 +52,12 @@
                 <Authorized>
                     <button class="btn btn-outline-light" @onclick="GoToMyProfile">My Profile</button>
                     <a class="btn btn-outline-danger" @onclick="Logout" href="javascript:void(0)">Logout</a>
-                    <btn class="btn btn-outline-info href="https://docs.microsoft.com/aspnet/" target="_blank">About</btn>
+                    <NavLink class="btn btn-outline-info" href="about" target="_blank">About</NavLink>
                 </Authorized>
                 <NotAuthorized>
                     <a class="btn btn-outline-success" href="/login">Login</a>
                     <a class="btn btn-outline-info" href="/registeruser">Register</a>
-                    <btn class="btn btn-outline-info href="https://docs.microsoft.com/aspnet/" target="_blank">About</btn>
+                    <NavLink class="btn btn-outline-info" href="about" target="_blank">About</NavLink>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
