@@ -23,10 +23,10 @@
                     <span class="input-group-text" id="inputGroup-sizing-default">Theme description</span>
                     <input @bind="newTheme.ThemeBody" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
-      @*          <div>
+                <div>
                     <label for="img">Select image:</label>
                     <InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
-                </div>*@
+                </div>
             </div>
             <button @onclick="(()=>{AddNewTheme();})">Create theme</button>
 
@@ -50,29 +50,17 @@
             var customAuthstateProvider = (AuthProccedure)authStateProvider;
             User user = await customAuthstateProvider.GetCurrentUserAsync();
             themeService.CreateNewTheme(newTheme, user.Id, ForumId);
-
             Theme currentTheme = themeService.GetThemeByTitle(newTheme.Title);
-
-            //await SaveImage(currentTheme);
         }
         catch (Exception)
         {
-            
             throw;
         }
     }
 
     public InputFileChangeEventArgs InputImage;
 
-
-
     private string imageSrc;
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    var customAuthstateProvider = (AuthProccedure)authStateProvider;
-    //    User user = await customAuthstateProvider.GetCurrentUserAsync();
-
-    //}   
 
     private void OnInputFileChange(InputFileChangeEventArgs e)
     {
@@ -80,19 +68,16 @@
         this.StateHasChanged();
     }
 
-
     public async Task SaveImage(Theme currTheme)
     {   
         try
         {
             var customAuthstateProvider = (AuthProccedure)authStateProvider;
             User user = await customAuthstateProvider.GetCurrentUserAsync();
-
             imageService.SaveImagetoDatabase(InputImage, user, currTheme);
         }
         catch (Exception)
         {
-            
             throw;
         }
 

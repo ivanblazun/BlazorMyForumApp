@@ -13,51 +13,69 @@
 <AuthorizeView>
     <Authorized>
         <h1>Hello, @context.User.Identity.Name</h1>
-        <div class="container">
-            <div class="row">
-                <div class="col-4">
-                    <h6 class="btn btn-outline-secondary">Your forums @(content.Foras != null ? $"({content.Foras.Count})" : null)</h6>
-                    @if(content.Foras != null)
-                    {   
-                        <ul class="list-group">
-                            @foreach(var f in content.Foras)
-                            {
-                                string path = "/singleforum/" + f.Id.ToString();
-                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@f.Name</li>
-                            }
-                        </ul>
-                    }
-                </div>
-                <div class="col-4">
-                    <h6 class="btn btn-outline-secondary">Your Themes @(content.Foras != null ? $"({content.Themes.Count})" : null)</h6>
-                    @if(content.Themes != null)
-                    {
-                        <ul class="list-group">
-                            @foreach(var t in content.Themes)
-                            {
-                                string path = "/posts/" + t.Id.ToString();
-                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@t.Title</li>
-                            }
-                        </ul>
-                    }
-                </div>
-                <div class="col-4">
-                    <h6 class="btn btn-outline-secondary">Your Posts @(content.Foras != null ? $"({content.Posts.Count})" : null)</h6>
-                    @if(content.Posts != null)
-                    {  
-                        <ul class="list-group">
-                            @foreach(var p in content.Posts)
-                            { string path = "/posts/" + Convert.ToString(p.ThemeId);
-                                <li @onclick="(()=> NavigateTo(path))" class="list-group-item list-group-item-action btn btn-outline-info m-1">@p.Title</li>
-                            }
-                        </ul>
-                    }
+     
+            <p>These are forums, themes and posts that you opened or created</p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-4">
+                        <h6 class="btn btn-outline-secondary">Your forums @(content.Foras != null ? $"({content.Foras.Count})" : null)</h6>
+                        @if(content.Foras != null)
+                        {   
+                            <ul class="list-group">
+                                @foreach(var f in content.Foras)
+                                {
+                                    string path = "/singleforum/" + f.Id.ToString();
+                                    <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@f.Name</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="col-4">
+                        <h6 class="btn btn-outline-secondary">Your Themes @(content.Foras != null ? $"({content.Themes.Count})" : null)</h6>
+                        @if(content.Themes != null)
+                        {
+                            <ul class="list-group">
+                                @foreach(var t in content.Themes)
+                                {
+                                    string path = "/posts/" + t.Id.ToString();
+                                    <li @onclick="(()=> NavigateTo(path))" class="list-group-item btn btn-outline-info">@t.Title</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="col-4">
+                        <h6 class="btn btn-outline-secondary">Your Posts @(content.Foras != null ? $"({content.Posts.Count})" : null)</h6>
+                        @if(content.Posts != null)
+                        {  
+                            <ul class="list-group">
+                                @foreach(var p in content.Posts)
+                                { string path = "/posts/" + Convert.ToString(p.ThemeId);
+                                    <li @onclick="(()=> NavigateTo(path))" class="list-group-item list-group-item-action btn btn-outline-info m-1">@p.Title</li>
+                                }
+                            </ul>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
+    
     </Authorized>
     <NotAuthorized>
         <h1>Hello, guest!</h1>
+        <p>...welcome to the myForum site where you can open topics, create posts, reply to them and more...</p>
+        <br>
+        <p>click on registration and open your account, you will receive your username and password as a response...</p
+        <br>
+        <p>after logging in, you will have the option to set up your profile (name, surname, picture, etc.) and post and reply to topics</p>
+        <br
+            <p>also after registration, the administrator will receive an email with a notification about your registration and, <br>
+                if necessary, will assign you the status of power user or admin, which opens up additional options...</p>
+        <br>
+        <strong>for more information, see the "about" page or contact us by email</strong>
+        <br>
+        <strong style="color:crimson">
+            The application is still under development, so we suggest that you do not leave more valuable data or important <br> email addresses,
+            and we also suggest that you do not use the same password that is identical to those on other services or applications.
+        </strong>
     </NotAuthorized>
 </AuthorizeView>
 

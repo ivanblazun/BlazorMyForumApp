@@ -28,11 +28,12 @@ align-items: center;
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
 }
 
-    .nav-item:first-of-type {
+   /* .nav-item:first-of-type {
         padding-top: 1rem;
-    }
+    }*/
 
     .nav-item:last-of-type {
         padding-bottom: 1rem;

@@ -1,68 +1,49 @@
 ﻿@page "/about"
 
 <div class="about-section">
-        <h1>About myForum</h1>
+    <h1>About myForum <smal style="font-size:16px">(V1.0.0)</smal><p style="font-size:16px">Contact: myforum@gmail.com</p></h1>
         <p>myForum is web app, developed in Blazor(server) framework as learning project and it is currently still under development in proportion to my learning..</p>
         <br />
-    <div class="d-flex gap-2 justify-content-around">
+        <hr />
+    <div class="d-flex gap-2 justify-content-start">
         <div class="d-flex flex-column gap-2 p-2">
             <h3>Major features of app:</h3>
             <ul class="list-group">
-                <li class="list-group-item list-group-item-success m-1">User roles: <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Creating account : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Create theme : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Creatr sub-forum : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Add post to theme : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Add answer to post : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">User profile manager : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">User manager : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Register email notification (planed to create confirm email) : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-success m-1">Live chat: <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">User roles: <p style="text-align: center; color:black;font-size: 14px;">Content access in app and managing of content is based on roles of user</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">Creating account: <p style="text-align: center; color:black;font-size: 14px;">After register user is able to create themes, posts, answer to certain post or search other users</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">User profile manager: <p style="text-align: center; color:black;font-size: 14px;">Users can create or modify there user information or avatar image</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">Forum content management: <p style="text-align: center; color:black;font-size: 14px;">Admins can manage themes or posts content(to avoid any inappropriate content)</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">User manager: <p style="text-align: center; color:black;font-size: 14px;">Admins can manage other user profiles(to avoid any inappropriate content)</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">Register email notification (planed to create confirm email): <p style="text-align: center; color:black;font-size: 14px;">Notification email after registration</p></li>
+                <li class="list-group-item list-group-item-success m-1 w-100">Live chat: <p style="text-align: center; color:black;font-size: 14px;">Any guest or registered user can use live chat and communicate with other users</p></li>
              </ul>
         </div>
         <div class="d-flex flex-column gap-2 p-2">
             <h3>Features planned to implement:</h3>
             <ul class="list-group">
-                <li class="list-group-item list-group-item-primary m-1">User roles: <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Creating account : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Create theme : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Creatr sub-forum : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Add post to theme : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Add answer to post : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">User profile manager : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">User manager : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1">Register email notification (planed to create confirm email) : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-                <li class="list-group-item list-group-item-primary m-1"> : <p style="text-align: center; color:black;font-size: 14px;">Dummy desc</p></li>
-            </ul>
-        </div>
-        <div class="d-flex flex-column gap-2">
-            <h3>Used technologies:</h3>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-info m-1">Bootstrap</li>
-                <li class="list-group-item list-group-item-info m-1">.Net Core</li>
-                <li class="list-group-item list-group-item-info m-1">Blazor (server-side) framework</li>
-                <li class="list-group-item list-group-item-info m-1">Entity Framework</li>
-                <li class="list-group-item list-group-item-info m-1">Microsoft SQL M/S</li>
-                <li class="list-group-item list-group-item-info m-1">Azure SQL Database</li>
-                <li class="list-group-item list-group-item-info m-1">Azure App Service (app publishing)</li>
-                <li class="list-group-item list-group-item-info m-1">User manager</li>
-                <li class="list-group-item list-group-item-info m-1">Git and GitHub</li>
+                <li class="list-group-item list-group-item-primary m-1 w-100">Private message<p style="text-align: center; color:black;font-size: 14px;">Only Registered user will be able to send messages to another user</p></li>
+                <li class="list-group-item list-group-item-primary m-1 w-100">Register confirmation email: <p style="text-align: center; color:black;font-size: 14px;">Currently email only notify user on credentials; is planed to make full confirmation process after register</p></li>
+                <li class="list-group-item list-group-item-primary m-1 w-100">Major design overhaul: <p style="text-align: center; color:black;font-size: 14px;">Currently development is focused on functionality more then design and is planed to take serious approach</p></li>
+                <li class="list-group-item list-group-item-primary m-1 w-100">Responsive design: <p style="text-align: center; color:black;font-size: 14px;">Design is currently oriented to desktop view so next design changes will be focused on mobile responive features</p></li>
+                <li class="list-group-item list-group-item-primary m-1 w-100">Add ranking to posts: <p style="text-align: center; color:black;font-size: 14px;">Add ranking model to posts or answers to make forum more convinient</p></li>
             </ul>
         </div>
     </div>
-</div>
-
-<h2 style="text-align:center">Our Team</h2>
-<div class="row">
-    <div class="column">
-        <div class="card">
-            <img src="/w3images/team1.jpg" alt="Jane" style="width:100%">
-            <div class="container">
-                <h2>Jane Doe</h2>
-                <p class="title">CEO & Founder</p>
-                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
-                <p>jane@example.com</p>
-                <p><button class="button">Contact</button></p>
+    <hr>
+        <h3>Technologies used:</h3>
+    <div>
+        <div>
+            <div class="container list-group">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">ASP.Net Core<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Blazor (server-side) framework<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Entity Framework<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Microsoft SQL M/S<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Azure SQL Database<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Azure App Service (app publishing)<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Bootstrap<p></p></div>
+                    <div class="col-lg-4 col-md-4 list-group-item list-group-item-info m-1" style="width: fit-content">Git and GitHub<p></p></div>
+                </div>
             </div>
         </div>
     </div>

@@ -49,6 +49,9 @@
 </div>
 </EditForm>  
 @code {
+
+   
+
     private class Model
     {    
         [Required(ErrorMessage = "User name is required")]
@@ -90,12 +93,18 @@
             userAccountService.RegisterUser(registeredUser);
          
             RegisterEmail fromUserCredentials = new RegisterEmail();
-
+            
             fromUserCredentials.body = "Than you for registration, your user name is " + registeredUser.UserName + " and your password is " +registeredUser.Password;
             fromUserCredentials.subject = "Success registration, thank you " +registeredUser.UserName;
             fromUserCredentials.to = registeredUser.Email;
             emailService.SendRegisterMail(fromUserCredentials);
 
+            RegisterEmail fromUserCredentialsToAdmin = new RegisterEmail();
+            fromUserCredentialsToAdmin.body = "User" + registeredUser.UserName + " has registered with " + registeredUser.Email + " email";
+            fromUserCredentialsToAdmin.subject = "User " +registeredUser.UserName + " registration";
+            fromUserCredentialsToAdmin.to = "ivandevloper1985@gmail.com";
+            emailService.SendRegisterMail(fromUserCredentialsToAdmin);
+            
             js.InvokeVoidAsync("alert","User registered!");
 
             navManager.NavigateTo("/", true);     
