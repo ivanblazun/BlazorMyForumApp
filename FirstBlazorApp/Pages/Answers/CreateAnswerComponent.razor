@@ -3,11 +3,11 @@
 @inject PostService postService
 @inject AnswerService answerService
 
-<h3>CreateAnswerComponent</h3>
-
-<input type="text" @bind="answer.Body"/>
-<button @onclick="(()=>AddAnswer.InvokeAsync(answer))">Add Answer</button>
-
+<div class="mb-3 gap-2 w-75">
+    <label class="form-label m-1">Add answer...</label>
+    <input class="form-control m-1" type="text" @bind="answer.Body" />
+<button class="btn btn-outline-success m-1" @onclick="(()=>AddAnswer.InvokeAsync(answer))">Add Answer...</button>
+</div>
 @code {
 
     [Parameter]
