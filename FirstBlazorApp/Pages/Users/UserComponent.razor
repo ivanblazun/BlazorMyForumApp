@@ -11,7 +11,11 @@
             }
             <h5 class="card-title">@User.UserName</h5>
         <p class="card-text">User status: @User.UserStatus</p>
+               <AuthorizeView Roles="1">
+            <Authorized>
         <p class="card-text">User email: @User.Email</p>
+                </Authorized>
+            </AuthorizeView>
         <p class="card-text">User Registerd date: @User.RegisteredDate</p>
         <AuthorizeView Roles="1">
             <Authorized>
