@@ -67,8 +67,8 @@
         <br>
         <p>after logging in, you will have the option to set up your profile (name, surname, picture, etc.) and post and reply to topics</p>
         <br
-            <p>also after registration, the administrator will receive an email with a notification about your registration and, <br>
-                if necessary, will assign you the status of power user or admin, which opens up additional options...</p>
+        <p>also after registration, the administrator will receive an email with a notification about your registration and, <br>
+        if necessary, will assign you the status of power user or admin, which opens up additional options...</p>
         <br>
         <strong>for more information, see the "about" page or contact us by email</strong>
         <br>
@@ -83,7 +83,6 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
-
     UserRelatedContent content = new UserRelatedContent();
 
     User user = new();
@@ -95,11 +94,8 @@
         {
             var customAuthstateProvider = (AuthProccedure)authStateProvider;
             user = await customAuthstateProvider.GetCurrentUserAsync();
-
             content = await sqlService.GetUserCreatedContentAsync(user) ?? null;
-
         }
-
     }
 
     private void NavigateTo(string path)

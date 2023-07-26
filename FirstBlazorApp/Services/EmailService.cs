@@ -14,8 +14,6 @@ namespace FirstBlazorApp.Services
             _configuration = configuration;
         }
 
-        
-
         public void SendRegisterMail(RegisterEmail regMail)
         {
             string emailUser = _configuration.GetValue<string>("EmailUser");

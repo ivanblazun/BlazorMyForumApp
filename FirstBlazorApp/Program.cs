@@ -32,6 +32,7 @@ builder.Services.AddTransient<SqlService>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
 //Email service
+// Consider to add to Transient scope
 builder.Services.AddSingleton<EmailService>();
 
 // Chat service
@@ -41,11 +42,10 @@ builder.Services.AddResponseCompression(options =>
 });
 
 // Auth services
+// Consider to add to Transient scope
 builder.Services.AddSingleton<UserAccountService>();
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -57,8 +57,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 //IApplicationBuilder.(app);
-
-
 
 app.UseStaticFiles();
 

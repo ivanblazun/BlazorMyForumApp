@@ -121,7 +121,6 @@ namespace FirstBlazorApp.Services
 
             SaveImage(Img,user);
                               
-
         }
 
         // For Theme Images
@@ -141,19 +140,14 @@ namespace FirstBlazorApp.Services
                 Img.ThemeId= theme.Id;
 
                 SaveImage(Img, user,theme);
-
             }
             catch (Exception q)
             {
-
                 throw q;
             }
 
 
         }
-
-
-
 
         ///////////////////////////////////////////////////
         // Call image and convert from sql to image string,

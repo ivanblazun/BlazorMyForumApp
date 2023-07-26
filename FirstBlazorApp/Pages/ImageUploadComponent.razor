@@ -10,17 +10,14 @@
 @inject UserService userService
 <h3>ImageUploadComponent</h3>
 
-
-    <label for="img">Select image:</label>
+<label for="img">Select image:</label>
 <InputFile class="custom-file-input" OnChange="OnInputFileChange" accept="image/png, image/jpeg, image/gif" id="inputFile" />
 <button onclick="@(()=>{SaveImage();})" type="button">Upload</button>
-
 <img src="@imageSrc" />
+
 @code {
 
     public InputFileChangeEventArgs InputImage;
-
-
 
     private string imageSrc;
     protected override async Task OnInitializedAsync()
@@ -37,13 +34,10 @@
         this.StateHasChanged();
     }
 
-
     public async Task SaveImage()
     {
         var customAuthstateProvider = (AuthProccedure)authStateProvider;
         User user = await customAuthstateProvider.GetCurrentUserAsync();
-
         imageService.SaveImagetoDatabase(InputImage,user);
-
     }
 }

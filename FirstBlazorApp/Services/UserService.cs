@@ -193,20 +193,16 @@ namespace FirstBlazorApp.Services
                 {
                     UserProfile userProfile = new UserProfile()
                     {
-
                         FirstName = inputUserProfile.FirstName,
                         LastName = inputUserProfile.LastName,
                         Avatar = "",
                         AboutMyself = inputUserProfile.AboutMyself,
-                        UserId = currentUser.Id
-                                               
+                        UserId = currentUser.Id                                             
                     };
                     context.Add(userProfile);
                     context.SaveChanges();
-
                 }
             }
-
             return null;
         }
 
