@@ -1,8 +1,11 @@
 ﻿@page "/"
 @namespace FirstBlazorApp.Pages
+@using Microsoft.AspNetCore.Components;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject NavigationManager navManager;
+<link rel="manifest" href="/manifest.webmanifest" />
 @{
     Layout = "_Layout";
 }
-
 <component type="typeof(App)" render-mode="ServerPrerendered" />
+<script>'serviceWorker' in navigator && navigator.serviceWorker.register('/serviceworker')</script>

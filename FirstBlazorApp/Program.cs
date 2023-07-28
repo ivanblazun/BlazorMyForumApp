@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddProgressiveWebApp("manifest.json");
 var connectionString = builder.Configuration.GetConnectionString("Azure") ?? 
     throw new NullReferenceException("No connection string");
 // Add services to the container.
@@ -30,6 +31,7 @@ builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<ImageService>();
 builder.Services.AddTransient<SqlService>();
 builder.Services.AddSingleton<WeatherForecastService>();
+
 
 //Email service
 // Consider to add to Transient scope
