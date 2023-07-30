@@ -8,9 +8,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
+using WebEssentials.AspNetCore.Pwa;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddProgressiveWebApp("manifest.json");
 var connectionString = builder.Configuration.GetConnectionString("Azure") ?? 
     throw new NullReferenceException("No connection string");
 // Add services to the container.
@@ -46,6 +47,12 @@ builder.Services.AddResponseCompression(options =>
 // Auth services
 // Consider to add to Transient scope
 builder.Services.AddSingleton<UserAccountService>();
+
+builder.Services.AddProgressiveWebApp(new PwaOptions { RegisterServiceWorker = true });
+
+
+
+
 
 var app = builder.Build();
 
