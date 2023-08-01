@@ -48,7 +48,16 @@ builder.Services.AddResponseCompression(options =>
 // Consider to add to Transient scope
 builder.Services.AddSingleton<UserAccountService>();
 
-builder.Services.AddProgressiveWebApp(new PwaOptions { RegisterServiceWorker = true });
+//builder.Services.AddProgressiveWebApp(new PwaOptions
+//{
+//    // RoutesToPreCache = "/, /contact.html, data.json",
+//    Strategy = ServiceWorkerStrategy.CacheFirst,
+//    AllowHttp = true,
+//    RegisterServiceWorker = true,
+//    RegisterWebmanifest = true,
+//});
+
+//builder.Services.AddProgressiveWebApp(new PwaOptions { RegisterServiceWorker = true });
 
 
 

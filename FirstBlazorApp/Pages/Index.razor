@@ -12,6 +12,7 @@
 
 <AuthorizeView>
     <Authorized>
+  
         <h1>Hello, @context.User.Identity.Name</h1>
      
             <p>These are forums, themes and posts that you opened or created</p>
@@ -60,6 +61,10 @@
     
     </Authorized>
     <NotAuthorized>
+              <button class="btn" @onclick=@CallJSMethod>Click</button>
+              <br>
+              <video id="videoCam"></video>
+              <br>
         <h1>Hello, guest!</h1>
         <p>...welcome to the myForum site where you can open topics, create posts, reply to them and more...</p>
         <br>
@@ -108,5 +113,10 @@
         var authState = await authenticationState;
         var message = $"Hello {authState.User.Identity.Name}";
         await js.InvokeVoidAsync("alert", message);
+    }
+
+        public async void CallJSMethod()
+    {
+        await js.InvokeAsync<string>("openCam","TESTIRAM");
     }
 }

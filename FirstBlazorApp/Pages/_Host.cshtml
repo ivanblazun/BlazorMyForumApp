@@ -4,9 +4,9 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject NavigationManager navManager;
 
-@*<link rel="manifest" href="manifest.json" />*@
+@*<link rel="manifest" href='~/manifest.json' />*@
 @{
     Layout = "_Layout";
 }
 <component type="typeof(App)" render-mode="ServerPrerendered" />
-<script>'serviceWorker' in navigator && navigator.serviceWorker.register('/service-worker.js')</script>
+@*<script>'serviceWorker' in navigator && navigator.serviceWorker.register('service-worker.js')</script>*@

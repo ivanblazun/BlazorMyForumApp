@@ -13,6 +13,8 @@
   <ItemGroup>
     <None Remove="Pages\service-worker.js" />
     <None Remove="Pages\service-worker.published.js" />
+    <None Remove="Shared\service-worker.js" />
+    <None Remove="Shared\service-worker.published.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +23,14 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Include="Pages\service-worker.published.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Shared\service-worker.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Shared\service-worker.published.js">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
